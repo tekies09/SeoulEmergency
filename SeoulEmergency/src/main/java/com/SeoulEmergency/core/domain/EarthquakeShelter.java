@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
-@Document(collection = "earthquake_test")
+@Document(collection = "earthquake")
 @Getter
 public class EarthquakeShelter {
 

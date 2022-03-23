@@ -5,7 +5,6 @@ import com.SeoulEmergency.api.service.DefenseShelterService;
 import com.SeoulEmergency.api.service.EarthquakeShelterService;
 import com.SeoulEmergency.core.domain.DefenseShelter;
 import com.SeoulEmergency.core.domain.EarthquakeShelter;
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -21,7 +20,6 @@ import java.util.List;
 /**
  * 지진옥외/민방위 대피소 관련 API 요청을 처리한다.
  */
-@Api(value = "대피소 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/shelters")
@@ -34,7 +32,7 @@ public class ShelterController {
      * 사용자의 현재 위치에서 가까운 순서대로 지진옥외 대피소 정보를 가져온다.
      */
     @GetMapping(value = "/list/earthquakes", produces = "text/plain;charset=UTF-8")
-    @Operation(summary = "List of earthquake shelters", description = "Find the nearest earthquake shelters")
+    @Operation(summary = "지진 대피소 리스트 조회", description = "사용자의 현재 위치에서 가까운 순으로 민방위 대피소를 조회한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK")
     })
@@ -49,7 +47,7 @@ public class ShelterController {
      * 사용자의 현재 위치에서 가까운 순서대로 민방위 대피소 정보를 가져온다.
      */
     @GetMapping(value = "/list/defenses", produces = "text/plain;charset=UTF-8")
-    @Operation(summary = "List of defense shelters", description = "Find the nearest defense shelters")
+    @Operation(summary = "민방위 대피소 리스트 조회", description = "사용자의 현재 위치에서 가까운 순으로 민방위 대피소를 탐색한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK")
     })

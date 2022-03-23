@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
 
 
-@Document(collection = "defense_test")
+@Document(collection = "defense")
 @Getter
 public class DefenseShelter {
 
