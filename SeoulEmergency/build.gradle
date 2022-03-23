@@ -30,5 +30,10 @@ dependencies {
     implementation ('org.springframework.boot:spring-boot-starter-data-mongodb')
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
+    implementation('io.springfox:springfox-boot-starter:3.0.0')
+    implementation('org.springframework.plugin:spring-plugin-core:2.0.0.RELEASE')
+//    implementation('org.springframework.data:spring-data-mongodb:3.3.0')
+//    implementation('org.mongodb:mongo-java-driver:3.12.7')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
