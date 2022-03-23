@@ -79,6 +79,7 @@ local.properties
 *.ipr
 *.iws
 .idea/
+out/
 
 ### SVN ###
 .svn/
