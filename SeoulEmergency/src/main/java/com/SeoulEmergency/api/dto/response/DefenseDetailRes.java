@@ -1,6 +1,6 @@
 package com.SeoulEmergency.api.dto.response;
 
-import com.SeoulEmergency.core.domain.shelter.Defense;
+import com.SeoulEmergency.core.domain.DefenseShelter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -16,9 +16,9 @@ import lombok.Setter;
 public class DefenseDetailRes extends BaseResponseBody {
 
     @ApiModelProperty(name = "민방위 대피소 객체")
-    Defense defenseDetail = new Defense();
+    DefenseShelter defenseDetail = new DefenseShelter();
 
-    public static DefenseDetailRes of(Integer statusCode, String message, Defense defenseDetail) {
+    public static DefenseDetailRes of(Integer statusCode, String message, DefenseShelter defenseDetail) {
         DefenseDetailRes res = new DefenseDetailRes();
         res.setStatusCode(statusCode);
         res.setMessage(message);
