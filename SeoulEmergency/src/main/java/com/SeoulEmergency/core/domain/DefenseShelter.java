@@ -1,6 +1,9 @@
 package com.SeoulEmergency.core.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.geo.Point;
@@ -8,11 +11,12 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
-
 
 @Document(collection = "defense")
 @Getter
+@Setter
+@ToString
+@NoArgsConstructor
 public class DefenseShelter {
 
     @Id
@@ -35,11 +39,11 @@ public class DefenseShelter {
     // 인원수
     private int headCount;
     // 개방 여부
-    private boolean isOpen;
+    private String isOpen;
     // 데이터 기준일자
-    private LocalDate date;
+    private String date;
 
-    protected DefenseShelter(int seqNum, String name, String address, int equiArea, Point location, String type, int headCount, boolean isOpen, LocalDate date) {
+    protected DefenseShelter(int seqNum, String name, String address, int equiArea, Point location, String type, int headCount, String isOpen, String date) {
         this.seqNum = seqNum;
         this.name = name;
         this.address = address;
