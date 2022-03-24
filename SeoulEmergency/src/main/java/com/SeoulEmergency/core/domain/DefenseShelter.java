@@ -35,11 +35,11 @@ public class DefenseShelter {
     // 인원수
     private int headCount;
     // 개방 여부
-    private boolean isOpen;
+    private String isOpen;
     // 데이터 기준일자
-    private LocalDate date;
+    private String date;
 
-    protected DefenseShelter(int seqNum, String name, String address, int equiArea, Point location, String type, int headCount, boolean isOpen, LocalDate date) {
+    protected DefenseShelter(int seqNum, String name, String address, int equiArea, Point location, String type, int headCount, String isOpen, String date) {
         this.seqNum = seqNum;
         this.name = name;
         this.address = address;

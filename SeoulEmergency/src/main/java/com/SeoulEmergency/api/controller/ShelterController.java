@@ -3,7 +3,7 @@ package com.SeoulEmergency.api.controller;
 
 import com.SeoulEmergency.api.service.DefenseShelterService;
 import com.SeoulEmergency.api.service.EarthquakeShelterService;
-import com.SeoulEmergency.core.domain.DefenseShelter;
+import com.SeoulEmergency.core.domain.DefenseShelterWithDistance;
 import com.SeoulEmergency.core.domain.EarthquakeShelterWithDistance;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -51,7 +51,7 @@ public class ShelterController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK")
     })
-    public ResponseEntity<List<DefenseShelter>> DefenseSheltersByDistance(
+    public ResponseEntity<List<DefenseShelterWithDistance>> DefenseSheltersByDistance(
             @RequestParam Double longitude,
             @RequestParam Double latitude) {
 
