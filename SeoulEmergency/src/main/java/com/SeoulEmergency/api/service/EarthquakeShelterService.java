@@ -2,7 +2,7 @@ package com.SeoulEmergency.api.service;
 
 
 import com.SeoulEmergency.api.queryrepository.EarthquakeShelterRepository;
-import com.SeoulEmergency.core.domain.EarthquakeShelter;
+import com.SeoulEmergency.core.domain.EarthquakeShelterWithDistance;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
@@ -15,14 +15,10 @@ public class EarthquakeShelterService {
 
     private final EarthquakeShelterRepository earthquakeShelterRepository;
 
-//    public List<EarthquakeShelter> getEarthquakeShelters() {
-//        return earthquakeShelterRepository.findAll();
-//    }
-
-    public List<EarthquakeShelter> getNearEarthquakeShelters(Double longitude, Double latitude) {
+    public List<EarthquakeShelterWithDistance> getNearEarthquakeShelters(Double longitude, Double latitude) {
         // 입력받은 경도, 위도 정보로 point 객체를 만들어 넘김.
         Point point = new Point(longitude, latitude);
 
-        return earthquakeShelterRepository.findByLocationNear(point);
+        return earthquakeShelterRepository.findByLocationWithDistance(point);
     }
 }
