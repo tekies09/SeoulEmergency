@@ -16,7 +16,7 @@ public class BaseResponseBody {
 
     @ApiModelProperty(name = "응답 코드", example = "200")
     Integer statusCode = null;
-    @ApiModelProperty(name = "응답 메시지", example = "Success")
+    @ApiModelProperty(name = "응답 메시지", example = "OK")
     String message = null;
 
     public BaseResponseBody() {}
