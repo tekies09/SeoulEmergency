@@ -1,9 +1,15 @@
 package com.SeoulEmergency.api.controller;
 
+import com.SeoulEmergency.api.service.DefenseShelterService;
+import com.SeoulEmergency.api.service.EarthquakeShelterService;
+import com.SeoulEmergency.core.domain.DefenseShelterWithDistance;
+import com.SeoulEmergency.core.domain.EarthquakeShelterWithDistance;
+
 import com.SeoulEmergency.api.dto.response.*;
 import com.SeoulEmergency.api.service.ShelterService;
 import com.SeoulEmergency.core.domain.DefenseShelter;
 import com.SeoulEmergency.core.domain.EarthquakeShelter;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,11 +24,15 @@ import java.util.List;
  * 지진옥외/민방위 대피소 관련 API 요청을 처리한다.
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/shelters")
 public class ShelterController {
 
     @Autowired
     ShelterService shelterService;
+
+    private final EarthquakeShelterService earthquakeShelterService;
+    private final DefenseShelterService defenseShelterService;
 
     /**
      * 사용자의 현재 위치에서 가까운 순서대로 지진옥외 대피소 정보를 가져온다.
@@ -32,14 +42,11 @@ public class ShelterController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK")
     })
-    public ResponseEntity<? extends BaseResponseBody> EarthquakeSheltersByDistance(
-            @RequestParam String longitude,
-            @RequestParam String latitude) {
-        List<EarthquakeShelter> earthquakeList = shelterService.getNearEarthquakeShelters(longitude, latitude);
-        // 조회 데이터 없음(404)
-        if (earthquakeList.isEmpty() || earthquakeList == null) return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Not Found"));
-        // 조회 성공(200)
-        return ResponseEntity.status(200).body(EarthquakeListRes.of(200, "Success", earthquakeList));
+    public ResponseEntity<List<EarthquakeShelterWithDistance>> EarthquakeSheltersByDistance(
+            @RequestParam Double longitude,
+            @RequestParam Double latitude) {
+
+        return ResponseEntity.ok(earthquakeShelterService.getNearEarthquakeShelters(longitude, latitude));
     }
 
     /**
@@ -50,15 +57,13 @@ public class ShelterController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK")
     })
-    public ResponseEntity<? extends BaseResponseBody> DefenseSheltersByDistance(
-            @RequestParam String longitude,
-            @RequestParam String latitude) {
-        List<DefenseShelter> defenseList = shelterService.getNearDefenseShelters(longitude, latitude);
-        // 조회 데이터 없음(404)
-        if (defenseList.isEmpty() || defenseList == null) return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Not Found"));
-        // 조회 성공(200)
-        return ResponseEntity.status(200).body(DefenseListRes.of(200, "Success", defenseList));
+    public ResponseEntity<List<DefenseShelterWithDistance>> DefenseSheltersByDistance(
+            @RequestParam Double longitude,
+            @RequestParam Double latitude) {
+
+        return ResponseEntity.ok(defenseShelterService.getNearDefenseShelters(longitude, latitude));
     }
+    
 
     @GetMapping("/detail/earthquakes/{shelter_id}")
     @Operation(
