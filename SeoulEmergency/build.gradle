@@ -44,9 +44,4 @@ dependencies {
     implementation('org.mongodb:mongo-java-driver:3.12.7')
 
     implementation('org.springframework.data:spring-data-commons:2.4.5')
-
-//    implementation('commons-logging:commons-logging:1.2')
-//    implementation('org.springframework.boot:spring-boot-configuration-processor')
-//    implementation('org.springframework:spring-webmvc:5.3.6')
-//    implementation('org.springframework:spring-web:5.3.6')
 }
