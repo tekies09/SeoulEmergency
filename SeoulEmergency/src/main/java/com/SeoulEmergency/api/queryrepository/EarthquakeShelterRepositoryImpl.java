@@ -56,4 +56,8 @@ public class EarthquakeShelterRepositoryImpl implements CustomEarthquakeShelterR
         return results.getMappedResults();
     }
 
+
+
+
+
 }

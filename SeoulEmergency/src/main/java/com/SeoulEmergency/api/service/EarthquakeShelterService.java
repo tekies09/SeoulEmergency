@@ -2,6 +2,7 @@ package com.SeoulEmergency.api.service;
 
 
 import com.SeoulEmergency.api.queryrepository.EarthquakeShelterRepository;
+import com.SeoulEmergency.core.domain.EarthquakeShelter;
 import com.SeoulEmergency.core.domain.EarthquakeShelterWithDistance;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.geo.Point;
@@ -20,5 +21,15 @@ public class EarthquakeShelterService {
         Point point = new Point(longitude, latitude);
 
         return earthquakeShelterRepository.findByLocationWithDistance(point);
+    }
+    public List<EarthquakeShelter> getnameSearchEarthquakeShelters(String title) {
+        // 입력받은 이름으로 검색 ㄱ
+        String Regtitle = ".*" + title + ".*";
+        return earthquakeShelterRepository.findByNameRegex(Regtitle);
+    }
+    public List<EarthquakeShelter> getareaSearchEarthquakeShelters(String title) {
+        // 입력받은 이름으로 검색 ㄱ
+        String Regtitle = ".*" + title + ".*";
+        return earthquakeShelterRepository.findByAddressRegex(Regtitle);
     }
 }
