@@ -2,6 +2,9 @@ package com.SeoulEmergency.core.domain;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.geo.Point;
@@ -12,6 +15,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "earthquake")
 @Getter
+@Setter
+@ToString
+@NoArgsConstructor
 public class EarthquakeShelter {
 
     @Id

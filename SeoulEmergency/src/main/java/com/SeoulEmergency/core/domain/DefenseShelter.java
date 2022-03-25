@@ -1,6 +1,9 @@
 package com.SeoulEmergency.core.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.geo.Point;
@@ -8,11 +11,12 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
-
 
 @Document(collection = "defense")
 @Getter
+@Setter
+@ToString
+@NoArgsConstructor
 public class DefenseShelter {
 
     @Id
