@@ -12,17 +12,23 @@
         <b-button v-b-toggle.sidebar-right>사이드바</b-button>
       </div>
 
-      <div class="main-map">
-        <img src="https://via.placeholder.com/900x800?text=Map+Place+Holder" alt="Map Place Holder" class="map-component">
+      <!-- 지도 컴포넌트 -->
+      <div class="map-component">
+        <MainMap/>
+        <!-- <img src="https://via.placeholder.com/900x800?text=Map+Place+Holder" alt="Map Place Holder" class="map-component"> -->
       </div>
-
-      <EvacList/>
+      <!-- 대피소 리스트 사이드바 컴포넌트 -->
+      <div class="list-component">
+        <EvacList/>
+      </div>
+      
   </div>
 </template>
 
 <script>
 import MainHeader from '@/components/MainHeader.vue'
 import SearchBar from '@/components/SearchBar.vue'
+import MainMap from '@/components/MainMap.vue'
 import EvacList from '@/components/EvacList.vue'
 
 export default {
@@ -30,6 +36,7 @@ export default {
   components: {
     MainHeader,
     SearchBar,
+    MainMap,
     EvacList
   }
 }
@@ -57,5 +64,6 @@ export default {
 .map-component {
     width: 95vw;
     height: 68vh;
+    margin: 20px 0 0 20px;
 }
 </style>
