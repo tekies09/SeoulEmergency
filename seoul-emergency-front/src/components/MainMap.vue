@@ -48,14 +48,14 @@ export default {
       return {
         lat: 37.5666805,             // 초기 중심점 : 서울 시청
         lng: 126.9784147,
-        zoom: 12,
+        zoom: 14,
         zoomControl: true,
         zoomControlOptions: {position: 'TOP_RIGHT'},
         mapTypeControl: true,
       }
     },
   },
-  watch:{
+  watch: {
     // store의 검색 대피소 리스트에 변화가 생기면 지도 중심점 재지정(값은 변하는데 지도 재랜더링이 안됩니다 ㅜㅜ)
     searchShelterList() {
       this.reFocusMap()
@@ -65,6 +65,7 @@ export default {
     // 지도 로딩
     onLoad(map) {
       this.map = map;
+      this.geofind();
     },
     // 마커 로딩
     onMarkerLoaded({marker}) {
@@ -89,6 +90,9 @@ export default {
       navigator.geolocation.getCurrentPosition(pos => {
         this.mapOptions.lat = pos.coords.latitude;
         this.mapOptions.lng = pos.coords.longitude;
+
+        // 새로운 지도 중심점에 맞춰 지도 이동
+        this.map.setCenter(this.mapOptions.lat, this.mapOptions.lng);
         console.log(this.mapOptions)
       }, err => {
         textContent = err.message;
@@ -101,13 +105,14 @@ export default {
         console.log("refocus")
         this.mapOptions.lat = this.searchShelterList[0].location.y;
         this.mapOptions.lng = this.searchShelterList[0].location.x;
+        
+        // 새로운 지도 중심점에 맞춰 지도 이동
+        this.map.setCenter(this.mapOptions.lat, this.mapOptions.lng);
         console.log(this.mapOptions)
       }
     }
   },
-  // 컴포넌트 마운트되면 브라우저로부터 현위치 받기
   mounted() {
-    this.geofind()
   }
 }
 </script>
