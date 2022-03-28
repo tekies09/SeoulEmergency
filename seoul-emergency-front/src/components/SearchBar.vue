@@ -31,7 +31,7 @@ export default {
     },
     // 검색 버튼 클릭
     searchClicked() {
-      var categoryInput = this.$store.state.category
+      let categoryInput = this.$store.state.category
       // 카테고리 선택에 따른 API 호출
       if (categoryInput == "지진") {
         this.searchEarthquakes()

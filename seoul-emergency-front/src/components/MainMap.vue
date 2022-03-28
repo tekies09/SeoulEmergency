@@ -79,7 +79,7 @@ export default {
     },
     // 브라우저로부터 현위치 받기
     geofind() {
-      var textContent = ''
+      let textContent = ''
       if(!("geolocation" in navigator)) {
         textContent = 'Geolocation is not available.';
         return;
@@ -93,6 +93,10 @@ export default {
 
         // 새로운 지도 중심점에 맞춰 지도 이동
         this.map.setCenter(this.mapOptions.lat, this.mapOptions.lng);
+
+        this.findNearestShelters();
+        
+        console.log(this.$store.state.category);
         console.log(this.mapOptions)
       }, err => {
         textContent = err.message;
@@ -110,6 +114,59 @@ export default {
         this.map.setCenter(this.mapOptions.lat, this.mapOptions.lng);
         console.log(this.mapOptions)
       }
+    },
+    // 현재 위치에서부터 가까운 대피소 10개를 찾는다.
+    findNearestShelters() {
+      console.log(this.$store.state.category)
+      console.log(this.mapOptions.lat)
+      console.log(this.mapOptions.lng)
+
+      let categoryInput = this.$store.state.category;
+      let location = {
+        longitude: this.mapOptions.lng,
+        latitude: this.mapOptions.lat,
+      }
+
+      console.log(location)
+
+      if (categoryInput === "지진") {
+        this.searchEarthquakeList(location)
+          .then((res) => {
+            console.log(res.data)
+            this.$store.commit('setSearchShelterList', res.data)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      } else if (categoryInput === "해일") {
+        this.searchTsunamiList(location)
+          .then((res) => {
+            this.$store.commit('setSearchShelterList', res.data)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      } else if (categoryInput === "민방위") {
+        this.searchDefenseList(location)
+          .then((res) => {
+            this.$store.commit('setSearchShelterList', res.data)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+    },
+
+    async searchEarthquakeList(location) {
+      return await this.$store.dispatch('searchNearestEarthquakes', location)
+    },
+
+    async searchTsunamiList(location) {
+      return await this.$store.dispatch('searchNearestTsunamis', location)
+    },
+
+    async searchDefenseList(location) {
+      return await this.$store.dispatch('searchNearestDefenses', location)
     }
   },
   mounted() {

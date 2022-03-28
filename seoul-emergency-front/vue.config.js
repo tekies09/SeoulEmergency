@@ -10,6 +10,6 @@ module.exports = defineConfig({
         target: 'http://j6a403.p.ssafy.io',
         changeOrigin: true,
       }
-    },
+    },  
   }
 })

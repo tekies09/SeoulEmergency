@@ -16,7 +16,8 @@
     "vue-geolocation-api": "^0.1.21",
     "vue-naver-maps": "^0.14.3",
     "vue-router": "^3.5.1",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
