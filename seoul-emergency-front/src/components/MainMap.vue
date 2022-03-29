@@ -22,7 +22,7 @@
           </naver-marker>
         </div>
         <!-- FIX: 현재 위치 표시 원 -->
-        <naver-circle id="current-circle"
+        <naver-circle
           v-if="this.currentLocationActive"
           :lat="this.mapOptions.lat" 
           :lng="this.mapOptions.lng" 
@@ -33,6 +33,13 @@
             fillOpacity: 0.7,
           }"
         />
+        <b-button
+          squared variant="danger"
+          id="near-shelter-btn"
+          @click="onClickNearBtn"
+        >
+          내 주변 대피소 찾기
+        </b-button>
       </naver-maps>
   </div>
 </template>
@@ -105,8 +112,6 @@ export default {
       // 현위치 받기 성공했으면 지도 옵션의 중심점 변경(값은 변하는데 지도 재랜더링이 안됩니다 ㅜㅜ)
       navigator.geolocation.getCurrentPosition(pos => {
         this.updateMapCenter(pos.coords.latitude, pos.coords.longitude);
-        // this.mapOptions.lat = pos.coords.latitude;
-        // this.mapOptions.lng = pos.coords.longitude;
 
         // 새로운 지도 중심점에 맞춰 지도 이동
         this.map.setCenter(pos.coords.latitude, pos.coords.longitude);
@@ -195,6 +200,11 @@ export default {
       this.mapOptions.lng = lng;
     },
 
+    // '내 주변 대피소 찾기' 버튼 클릭
+    onClickNearBtn() {
+      this.geofind();
+    },
+
     async searchEarthquakeList(location) {
       return await this.$store.dispatch('searchNearestEarthquakes', location)
     },
@@ -213,5 +223,12 @@ export default {
 </script>
 
 <style>
-
+#near-shelter-btn {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  z-index: 100
+}
 </style>
