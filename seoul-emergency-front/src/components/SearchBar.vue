@@ -18,6 +18,8 @@
 </template>
 
 <script>
+// import MainMap from './MainMap.vue'
+
 export default {
   data() {
     return {
@@ -61,6 +63,8 @@ export default {
           console.log(err)
         })
       }
+
+      this.$store.state.isSearch = true;
     },
     // 지진 대피소 리스트 검색 API 비동기 호출
     async searchEarthquakes() {

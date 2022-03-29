@@ -81,7 +81,9 @@ export default {
   watch: {
     // store의 검색 대피소 리스트에 변화가 생기면 지도 중심점 재지정(값은 변하는데 지도 재랜더링이 안됩니다 ㅜㅜ)
     searchShelterList() {
-      this.reFocusMap()
+      if (this.$store.state.isSearch) {
+        this.reFocusMap();
+      }
     }
   },
   methods: {
@@ -135,8 +137,6 @@ export default {
           this.searchShelterList[0].location.y, 
           this.searchShelterList[0].location.x
         );
-        // this.mapOptions.lat = this.searchShelterList[0].location.y;
-        // this.mapOptions.lng = this.searchShelterList[0].location.x;
         
         // 새로운 지도 중심점에 맞춰 지도 이동
         this.map.setCenter(this.mapOptions.lat, this.mapOptions.lng);
@@ -176,14 +176,17 @@ export default {
             console.log(err)
           })
       }
+
+      this.$store.state.isSearch = false;
     },
 
     // 지도 드래그 이벤트 or 확대/축소 스크롤 이벤트 발생
     onChangeMap() {
       // 지도 중심 위치 가져오기
       let centerPoint = this.map.getBounds();
-      let newLat = centerPoint._sw._lat;
-      let newLng = centerPoint._sw._lng;
+
+      let newLat = (centerPoint._sw._lat + centerPoint._ne._lat) / 2;
+      let newLng = (centerPoint._sw._lng + centerPoint._ne._lng) / 2;
 
       console.log(`위도 : ${newLat} | 경도 : ${newLng}`)
 

@@ -21,6 +21,7 @@ export default new Vuex.Store({
       { value: "민방위", text: "민방위"}
     ],
     searchShelterList: [],      // 검색 API로 얻은 대피소 리스트
+    isSearch: false,
   },
   getters: {
     // 대피소 리스트 getter
@@ -76,7 +77,7 @@ export default new Vuex.Store({
       const url = `/api/shelters/namesearch/defenses/${payload}`
       return backAxios.get(url)
     },
-    
+
     // 거리순 지진 옥외 대피소 검색 axios
     searchNearestEarthquakes({state}, location) {
       console.log('거리순 지진 옥외 대피소 검색', state);
@@ -100,7 +101,7 @@ export default new Vuex.Store({
       return backAxios.get(url, {
         params: location,
       });
-    }
+    },
   },
   modules: {
   },
