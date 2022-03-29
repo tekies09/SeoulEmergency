@@ -6,7 +6,10 @@
         :height="this.height" 
         :mapOptions="this.mapOptions" 
         :initLayers="this.initLayers"
-        @load="onLoad">
+        @load="onLoad"
+        @dragend="onChangeMap"
+        @zoom_changed="onChangeMap"
+      >
         <!-- 마커 컴포넌트 동적 생성 -->
         <div
           v-for="shelter in this.searchShelterList"
@@ -101,11 +104,12 @@ export default {
       
       // 현위치 받기 성공했으면 지도 옵션의 중심점 변경(값은 변하는데 지도 재랜더링이 안됩니다 ㅜㅜ)
       navigator.geolocation.getCurrentPosition(pos => {
-        this.mapOptions.lat = pos.coords.latitude;
-        this.mapOptions.lng = pos.coords.longitude;
+        this.updateMapCenter(pos.coords.latitude, pos.coords.longitude);
+        // this.mapOptions.lat = pos.coords.latitude;
+        // this.mapOptions.lng = pos.coords.longitude;
 
         // 새로운 지도 중심점에 맞춰 지도 이동
-        this.map.setCenter(this.mapOptions.lat, this.mapOptions.lng);
+        this.map.setCenter(pos.coords.latitude, pos.coords.longitude);
 
         // 현재 위치를 지도에 표시
         this.currentLocationActive = true;
@@ -121,12 +125,16 @@ export default {
     reFocusMap() {
       if (this.searchShelterList != null || this.searchShelterList.length > 0) {
         console.log("refocus")
-        this.mapOptions.lat = this.searchShelterList[0].location.y;
-        this.mapOptions.lng = this.searchShelterList[0].location.x;
+
+        this.updateMapCenter(
+          this.searchShelterList[0].location.y, 
+          this.searchShelterList[0].location.x
+        );
+        // this.mapOptions.lat = this.searchShelterList[0].location.y;
+        // this.mapOptions.lng = this.searchShelterList[0].location.x;
         
         // 새로운 지도 중심점에 맞춰 지도 이동
         this.map.setCenter(this.mapOptions.lat, this.mapOptions.lng);
-        console.log(this.mapOptions)
       }
     },
     // 현재 위치에서부터 가까운 대피소 10개를 찾는다.
@@ -163,6 +171,28 @@ export default {
             console.log(err)
           })
       }
+    },
+
+    // 지도 드래그 이벤트 or 확대/축소 스크롤 이벤트 발생
+    onChangeMap() {
+      // 지도 중심 위치 가져오기
+      let centerPoint = this.map.getBounds();
+      let newLat = centerPoint._sw._lat;
+      let newLng = centerPoint._sw._lng;
+
+      console.log(`위도 : ${newLat} | 경도 : ${newLng}`)
+
+      // 지도 위치 업데이트
+      this.updateMapCenter(newLat, newLng);
+
+      // 현재 지도 중심을 기준으로 대피소 검색
+      this.findNearestShelters()  
+    },
+
+    // 지도의 중심 위치를 갱신한다.
+    updateMapCenter(lat, lng) {
+      this.mapOptions.lat = lat;
+      this.mapOptions.lng = lng;
     },
 
     async searchEarthquakeList(location) {
