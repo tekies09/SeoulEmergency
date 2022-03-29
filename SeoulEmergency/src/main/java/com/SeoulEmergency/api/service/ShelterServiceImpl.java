@@ -28,7 +28,8 @@ public class ShelterServiceImpl implements ShelterService{
      */
     @Override
     public EarthquakeShelter getEarthquakeDetail(String shelterId) {
-        Query query = new Query(Criteria.where("_id").is(shelterId));
+        int number = Integer.parseInt(shelterId);
+        Query query = new Query(Criteria.where("seqNum").is(number));
         EarthquakeShelter earthquakeDetail = mongoTemplate.findOne(query, EarthquakeShelter.class, "earthquake");
         return earthquakeDetail;
     }
@@ -40,7 +41,8 @@ public class ShelterServiceImpl implements ShelterService{
      */
     @Override
     public DefenseShelter getDefenseDetail(String shelterId) {
-        Query query = new Query(Criteria.where("_id").is(shelterId));
+        int number = Integer.parseInt(shelterId);
+        Query query = new Query(Criteria.where("seqNum").is(number));
         DefenseShelter defenseDetail = mongoTemplate.findOne(query, DefenseShelter.class, "defense");
         return defenseDetail;
     }
