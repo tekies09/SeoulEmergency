@@ -18,6 +18,18 @@
             @load="onMarkerLoaded">
           </naver-marker>
         </div>
+        <!-- FIX: 현재 위치 표시 원 -->
+        <naver-circle id="current-circle"
+          v-if="this.currentLocationActive"
+          :lat="this.mapOptions.lat" 
+          :lng="this.mapOptions.lng" 
+          :radius="10"
+          :moreOptions="{
+            strokeColor: '#fe6a6a',
+            fillColor: '#fe6a6a',
+            fillOpacity: 0.7,
+          }"
+        />
       </naver-maps>
   </div>
 </template>
@@ -32,6 +44,7 @@ export default {
       height: 600,
       info: false,
       marker: null,
+      currentLocationActive: false,
       count: 1,
       map: null,
       isCTT: false,
@@ -94,10 +107,11 @@ export default {
         // 새로운 지도 중심점에 맞춰 지도 이동
         this.map.setCenter(this.mapOptions.lat, this.mapOptions.lng);
 
+        // 현재 위치를 지도에 표시
+        this.currentLocationActive = true;
+
+        // 현재 위치 기준 대피소 목록 조회
         this.findNearestShelters();
-        
-        console.log(this.$store.state.category);
-        console.log(this.mapOptions)
       }, err => {
         textContent = err.message;
         console.log(textContent)
@@ -117,17 +131,11 @@ export default {
     },
     // 현재 위치에서부터 가까운 대피소 10개를 찾는다.
     findNearestShelters() {
-      console.log(this.$store.state.category)
-      console.log(this.mapOptions.lat)
-      console.log(this.mapOptions.lng)
-
       let categoryInput = this.$store.state.category;
       let location = {
         longitude: this.mapOptions.lng,
         latitude: this.mapOptions.lat,
       }
-
-      console.log(location)
 
       if (categoryInput === "지진") {
         this.searchEarthquakeList(location)
