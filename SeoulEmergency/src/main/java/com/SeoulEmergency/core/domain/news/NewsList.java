@@ -18,11 +18,13 @@ public class NewsList {
 	
 	public String newsTitle;
 	public String newsLink;
+	public String newsContent;
 	
 	@Builder
-	public NewsList(String newsTitle, String newsLink) {
+	public NewsList(String newsTitle, String newsLink, String newsContent) {
 		this.newsTitle = newsTitle;
 		this.newsLink = newsLink;
+		this.newsContent = newsContent;
 	}
 	
 //	public void update(String newsTitle, String newsLink) {

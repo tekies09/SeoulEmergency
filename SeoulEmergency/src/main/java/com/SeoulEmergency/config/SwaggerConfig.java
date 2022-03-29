@@ -10,6 +10,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+// 주소: http://localhost:8080/swagger-ui/index.html
 
 @Configuration
 @EnableSwagger2
@@ -30,7 +31,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new  ApiInfoBuilder()
                 .title("Seoul Emergency")
-                .description("Seoul Emergency의 Swagger")
+                .description("Seoul Emergency의 Swagger입니다.")
                 .version("1.0")
                 .build();
     }

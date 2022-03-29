@@ -14,17 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SeoulEmergency.api.service.NewsService;
 import com.SeoulEmergency.core.domain.news.NewsList;
-import com.SeoulEmergency.core.repository.NewsListRepository;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/api/news")
-@CrossOrigin(origins="*", allowedHeaders="*")
-@Api(value = "´º½º °ü·Ã API", tags="News")
+//@CrossOrigin(origins="*", allowedHeaders="*")
+@Api(value = "ë‰´ìŠ¤ ë¦¬ìŠ¤íŠ¸ API", tags="ë‰´ìŠ¤ ë¦¬ìŠ¤íŠ¸ API")
 public class NewsController {
 
 	@Autowired
@@ -40,16 +39,26 @@ public class NewsController {
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "400", description = "BAD REQUEST"),
-			@ApiResponse(responseCode = "404", description = "Ã£À» ¼ö ¾ø´Â ÆäÀÌÁö"),
+			@ApiResponse(responseCode = "404", description = "ì°¾ì„ ìˆ˜ ì—†ëŠ” í˜ì´ì§€ì…ë‹ˆë‹¤."),
 			@ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
 	})
-	@ApiOperation(value = "´º½º ¸®½ºÆ® °¡Á®¿À±â", notes="ÆäÀÌÁö ¼ö¿Í ÆäÀÌÁö ´ç ¸î °³ÀÇ ¸®½ºÆ®¸¦ °¡Á®¿Ã °ÍÀÎÁö¿¡ ´ëÇÑ º¯¼ö·Î ¸®½ºÆ®¸¦ ºÒ·¯¿Â´Ù.")
+	@Operation(summary = "ë‰´ìŠ¤ ì •ë³´ ë¦¬ìŠ¤íŠ¸ ë°˜í™˜ API", description="ëª¨ë“  ë‰´ìŠ¤ì˜ ì œëª©ê³¼ ì•½ 100ì ê°€ëŸ‰ì˜ ë‚´ìš© ë¯¸ë¦¬ë³´ê¸°, ë§í¬ë¥¼ ë°˜í™˜í•´ì£¼ëŠ” APIì…ë‹ˆë‹¤.")
 	public ResponseEntity<List<NewsList>> showNewsList(
 			@RequestParam(value="page", defaultValue = "1") int page,
 			@RequestParam(value="limit", defaultValue = "1") int limit
 	) {
-		// ¿©±â ¼öÁ¤ÇØ¾ß ÇÔ. ¸ù°í µğºñ ¿¬°á ÈÄ °¡Á®¿À±â
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		List<NewsList> responseDto = newsService.getNewsList(page, limit);
+		return ResponseEntity.status(200).body(responseDto);
+	}
+	
+	@GetMapping("/list/page")
+	@Operation(summary = "ë‰´ìŠ¤ ì •ë³´ ë¦¬ìŠ¤íŠ¸ í˜ì´ì§• ë°˜í™˜ API", description = "ë¦¬ë°‹ë³„ í˜ì´ì§€ë§Œí¼ í•´ë‹¹ë˜ëŠ” ë‰´ìŠ¤ì˜ ì œëª©ê³¼ ì•½ 100ì ê°€ëŸ‰ì˜ ë‚´ìš© ë¯¸ë¦¬ë³´ê¸°, ë§í¬ë¥¼ ë°˜í™˜í•´ì£¼ëŠ” APIì…ë‹ˆë‹¤.")
+	public ResponseEntity<Page<NewsList>> showNewsListPage(
+			@RequestParam(value="page", defaultValue = "1") int page,
+			@RequestParam(value="limit", defaultValue = "1") int limit
+			) {
+		Page<NewsList> responseDto = newsService.getNewsPage(page, limit);
 		return ResponseEntity.status(200).body(responseDto);
 	}
 }

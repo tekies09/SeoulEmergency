@@ -27,13 +27,8 @@ public class NewsServiceImpl implements NewsService {
 		Pageable pageable= PageRequest.of(page, limit);
 		List<NewsList> list = mongoTemplate.find(query, NewsList.class);
 		
-		// ºÒ·¯¿Ã ¸®½ºÆ®°¡ ÀÖÀ» ¶§¸¸
-		if(list.size()>0) {
-			query.addCriteria(new Criteria().andOperator(list.toArray(new Criteria[0])));
-		}
-		
 		return PageableExecutionUtils.getPage(
-                mongoTemplate.find(query, NewsList.class),
+                list,
                 pageable,
                 () -> mongoTemplate.count(query.skip(0).limit(0), NewsList.class)
         );
@@ -43,11 +38,7 @@ public class NewsServiceImpl implements NewsService {
 	public List<NewsList> getNewsList(int page, int limit) {
 		Query query = new Query();
 		List<NewsList> list = mongoTemplate.find(query, NewsList.class);
-		
-		// ºÒ·¯¿Ã ¸®½ºÆ®°¡ ÀÖÀ» ¶§¸¸
-		if(list.size()>0) {
-			query.addCriteria(new Criteria().andOperator(list.toArray(new Criteria[0])));
-		}
+		// ë‰´ìŠ¤ ë‚´ìš©ì„ 40ì ì´ë‚´ë¡œ ìë¥´ëŠ” ê±´ í¬ë¡¤ë§ íŒŒíŠ¸ì—ì„œ ë§¡ì•„ë„ ë  ê²ƒ ê°™ìŒ.
 		
 		return list;
 	}
