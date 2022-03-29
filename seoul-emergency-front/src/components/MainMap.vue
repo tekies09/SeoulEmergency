@@ -6,7 +6,10 @@
         :height="this.height" 
         :mapOptions="this.mapOptions" 
         :initLayers="this.initLayers"
-        @load="onLoad">
+        @load="onLoad"
+        @dragend="onChangeMap"
+        @zoom_changed="onChangeMap"
+      >
         <!-- 마커 컴포넌트 동적 생성 -->
         <div
           v-for="shelter in this.searchShelterList"
@@ -18,6 +21,25 @@
             @load="onMarkerLoaded">
           </naver-marker>
         </div>
+        <!-- FIX: 현재 위치 표시 원 -->
+        <naver-circle
+          v-if="this.currentLocationActive"
+          :lat="this.mapOptions.lat" 
+          :lng="this.mapOptions.lng" 
+          :radius="10"
+          :moreOptions="{
+            strokeColor: '#fe6a6a',
+            fillColor: '#fe6a6a',
+            fillOpacity: 0.7,
+          }"
+        />
+        <b-button
+          squared variant="danger"
+          id="near-shelter-btn"
+          @click="onClickNearBtn"
+        >
+          내 주변 대피소 찾기
+        </b-button>
       </naver-maps>
   </div>
 </template>
@@ -32,6 +54,7 @@ export default {
       height: 600,
       info: false,
       marker: null,
+      currentLocationActive: false,
       count: 1,
       map: null,
       isCTT: false,
@@ -58,7 +81,9 @@ export default {
   watch: {
     // store의 검색 대피소 리스트에 변화가 생기면 지도 중심점 재지정(값은 변하는데 지도 재랜더링이 안됩니다 ㅜㅜ)
     searchShelterList() {
-      this.reFocusMap()
+      if (this.$store.state.isSearch) {
+        this.reFocusMap();
+      }
     }
   },
   methods: {
@@ -79,7 +104,7 @@ export default {
     },
     // 브라우저로부터 현위치 받기
     geofind() {
-      var textContent = ''
+      let textContent = ''
       if(!("geolocation" in navigator)) {
         textContent = 'Geolocation is not available.';
         return;
@@ -88,12 +113,16 @@ export default {
       
       // 현위치 받기 성공했으면 지도 옵션의 중심점 변경(값은 변하는데 지도 재랜더링이 안됩니다 ㅜㅜ)
       navigator.geolocation.getCurrentPosition(pos => {
-        this.mapOptions.lat = pos.coords.latitude;
-        this.mapOptions.lng = pos.coords.longitude;
+        this.updateMapCenter(pos.coords.latitude, pos.coords.longitude);
 
         // 새로운 지도 중심점에 맞춰 지도 이동
-        this.map.setCenter(this.mapOptions.lat, this.mapOptions.lng);
-        console.log(this.mapOptions)
+        this.map.setCenter(pos.coords.latitude, pos.coords.longitude);
+
+        // 현재 위치를 지도에 표시
+        this.currentLocationActive = true;
+
+        // 현재 위치 기준 대피소 목록 조회
+        this.findNearestShelters();
       }, err => {
         textContent = err.message;
         console.log(textContent)
@@ -103,13 +132,92 @@ export default {
     reFocusMap() {
       if (this.searchShelterList != null || this.searchShelterList.length > 0) {
         console.log("refocus")
-        this.mapOptions.lat = this.searchShelterList[0].location.y;
-        this.mapOptions.lng = this.searchShelterList[0].location.x;
+
+        this.updateMapCenter(
+          this.searchShelterList[0].location.y, 
+          this.searchShelterList[0].location.x
+        );
         
         // 새로운 지도 중심점에 맞춰 지도 이동
         this.map.setCenter(this.mapOptions.lat, this.mapOptions.lng);
-        console.log(this.mapOptions)
       }
+    },
+    // 현재 위치에서부터 가까운 대피소 10개를 찾는다.
+    findNearestShelters() {
+      let categoryInput = this.$store.state.category;
+      let location = {
+        longitude: this.mapOptions.lng,
+        latitude: this.mapOptions.lat,
+      }
+
+      if (categoryInput === "지진") {
+        this.searchEarthquakeList(location)
+          .then((res) => {
+            console.log(res.data)
+            this.$store.commit('setSearchShelterList', res.data)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      } else if (categoryInput === "해일") {
+        this.searchTsunamiList(location)
+          .then((res) => {
+            this.$store.commit('setSearchShelterList', res.data)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      } else if (categoryInput === "민방위") {
+        this.searchDefenseList(location)
+          .then((res) => {
+            this.$store.commit('setSearchShelterList', res.data)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+
+      this.$store.state.isSearch = false;
+    },
+
+    // 지도 드래그 이벤트 or 확대/축소 스크롤 이벤트 발생
+    onChangeMap() {
+      // 지도 중심 위치 가져오기
+      let centerPoint = this.map.getBounds();
+
+      let newLat = (centerPoint._sw._lat + centerPoint._ne._lat) / 2;
+      let newLng = (centerPoint._sw._lng + centerPoint._ne._lng) / 2;
+
+      console.log(`위도 : ${newLat} | 경도 : ${newLng}`)
+
+      // 지도 위치 업데이트
+      this.updateMapCenter(newLat, newLng);
+
+      // 현재 지도 중심을 기준으로 대피소 검색
+      this.findNearestShelters()  
+    },
+
+    // 지도의 중심 위치를 갱신한다.
+    updateMapCenter(lat, lng) {
+      this.mapOptions.lat = lat;
+      this.mapOptions.lng = lng;
+    },
+
+    // '내 주변 대피소 찾기' 버튼 클릭
+    onClickNearBtn() {
+      this.geofind();
+    },
+
+    async searchEarthquakeList(location) {
+      return await this.$store.dispatch('searchNearestEarthquakes', location)
+    },
+
+    async searchTsunamiList(location) {
+      return await this.$store.dispatch('searchNearestTsunamis', location)
+    },
+
+    async searchDefenseList(location) {
+      return await this.$store.dispatch('searchNearestDefenses', location)
     }
   },
   mounted() {
@@ -118,5 +226,12 @@ export default {
 </script>
 
 <style>
-
+#near-shelter-btn {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  z-index: 100
+}
 </style>

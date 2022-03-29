@@ -6,9 +6,9 @@
     </div>
     <p class="help">대피소 종류를 선택하세요</p>
     <div class="categories">
-      <b-button @click="earthquake" variant="outline-dark" size="lg" to="/map">지진</b-button>
-      <b-button @click="tsunami" variant="outline-dark" size="lg" to="/map">해일</b-button>
-      <b-button @click="defence" variant="outline-dark" size="lg" to="/map">민방위</b-button>
+      <b-button @click="clickCategoryBtn('지진')" variant="outline-dark" size="lg" to="/map">지진</b-button>
+      <b-button @click="clickCategoryBtn('해일')" variant="outline-dark" size="lg" to="/map">해일</b-button>
+      <b-button @click="clickCategoryBtn('민방위')" variant="outline-dark" size="lg" to="/map">민방위</b-button>
     </div>
   </div>
 </template>
@@ -16,14 +16,8 @@
 <script>
 export default {
   methods: {
-    earthquake() {
-      this.$store.state.category = "지진";
-    },
-    tsunami() {
-      this.$store.state.category = "해일";
-    },
-    defence() {
-      this.$store.state.category = "민방위";
+    clickCategoryBtn(category) {
+      this.$store.commit('SET_CATEGORY', category);
     }
   }
 }

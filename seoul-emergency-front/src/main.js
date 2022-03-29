@@ -20,7 +20,7 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 // Make VueNaverMap available by Set ClientId
 Vue.use(naver, {
-  clientID: 'nblzs8lwby',
+  clientID: 'ttsrjtbjqw',
 })
 // Make VueGeolocationApi available
 Vue.use(VueGeolocationApi)

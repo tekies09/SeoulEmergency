@@ -18,6 +18,8 @@
 </template>
 
 <script>
+// import MainMap from './MainMap.vue'
+
 export default {
   data() {
     return {
@@ -31,7 +33,7 @@ export default {
     },
     // 검색 버튼 클릭
     searchClicked() {
-      var categoryInput = this.$store.state.category
+      let categoryInput = this.$store.state.category
       // 카테고리 선택에 따른 API 호출
       if (categoryInput == "지진") {
         this.searchEarthquakes()
@@ -61,6 +63,8 @@ export default {
           console.log(err)
         })
       }
+
+      this.$store.state.isSearch = true;
     },
     // 지진 대피소 리스트 검색 API 비동기 호출
     async searchEarthquakes() {

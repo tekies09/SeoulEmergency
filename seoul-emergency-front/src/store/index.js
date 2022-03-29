@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import createPersistedState from 'vuex-persistedstate';
+
 
 Vue.use(Vuex)
 
@@ -19,6 +21,7 @@ export default new Vuex.Store({
       { value: "민방위", text: "민방위"}
     ],
     searchShelterList: [],      // 검색 API로 얻은 대피소 리스트
+    isSearch: false,
   },
   getters: {
     // 대피소 리스트 getter
@@ -31,6 +34,10 @@ export default new Vuex.Store({
     setSearchShelterList(state, searchShelterList) {
       state.searchShelterList = []
       state.searchShelterList = searchShelterList
+    },
+    // 대피소 분류 setter
+    SET_CATEGORY(state, category) {
+      state.category = category;
     }
   },
   actions: {
@@ -69,8 +76,36 @@ export default new Vuex.Store({
       console.log('searchDefensesByName', state, payload);
       const url = `/api/shelters/namesearch/defenses/${payload}`
       return backAxios.get(url)
-    }
+    },
+
+    // 거리순 지진 옥외 대피소 검색 axios
+    searchNearestEarthquakes({state}, location) {
+      console.log('거리순 지진 옥외 대피소 검색', state);
+      const url = '/api/shelters/list/earthquakes';
+      return backAxios.get(url, {
+        params: location,
+      });
+    },
+    // 거리순 해일 대피소 검색 axios
+    searchNearestTsunamis({state}, location) {
+      console.log('거리순 해일 대피소 검색', state);
+      const url = '/api/shelters/list/earthquakes';
+      return backAxios.get(url, {
+        params: location,
+      });
+    },
+    // 거리순 민방위 대피소 검색 axios
+    searchNearestDefenses({state}, location) {
+      console.log('거리순 민방위 대피소 검색', state);
+      const url = '/api/shelters/list/defenses';
+      return backAxios.get(url, {
+        params: location,
+      });
+    },
   },
   modules: {
-  }
+  },
+  plugins: [
+    createPersistedState(),
+  ]
 })
