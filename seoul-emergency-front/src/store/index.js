@@ -22,6 +22,7 @@ export default new Vuex.Store({
     ],
     searchShelterList: [],      // 검색 API로 얻은 대피소 리스트
     isSearch: false,
+    shelterDetail:[],
   },
   getters: {
     // 대피소 리스트 getter
@@ -38,6 +39,10 @@ export default new Vuex.Store({
     // 대피소 분류 setter
     SET_CATEGORY(state, category) {
       state.category = category;
+    },
+    setDetailShelter(state, shelterDetail) {
+      state.shelterDetail = []
+      state.shelterDetail = shelterDetail
     }
   },
   actions: {
@@ -102,6 +107,19 @@ export default new Vuex.Store({
         params: location,
       });
     },
+    // SeqNum으로 지진 대피소검색
+    searchEarthquakesBySeq({state}, payload) {
+      console.log('searchEarthquakesBySeq', state, payload);
+      const url = `/api/shelters/detail/earthquakes/${payload}`
+      return backAxios.get(url)
+    },
+      // SeqNum으로 민방위 대피소검색
+    searchDefensesBySeq({state}, payload) {
+      console.log('searchDefensesBySeq', state, payload);
+      const url = `/api/shelters/detail/defenses/${payload}`
+      return backAxios.get(url)
+    },
+
   },
   modules: {
   },
