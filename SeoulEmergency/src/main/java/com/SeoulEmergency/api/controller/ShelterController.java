@@ -26,6 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins="*", allowedHeaders="*")
 @RequestMapping("/api/shelters")
 public class ShelterController {
 
