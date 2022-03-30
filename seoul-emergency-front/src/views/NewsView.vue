@@ -1,10 +1,22 @@
 <template>
   <div class="about">
-    <MainHeader/>
+    <MainHeader />
     <b-container>
       <b-row>
-        <b-col><NewsList/></b-col>
-        <b-col><WordCloud/></b-col>
+        <b-col>
+          <b-row>
+            <b-col style="width: 100%; text-align: center">
+              <NewsList />
+              <b-pagination
+                v-model="currentPage"
+                :total-rows="rows"
+                :per-page="perPage"
+                aria-controls="my-table"
+              ></b-pagination>
+            </b-col>
+          </b-row>
+        </b-col>
+        <b-col><WordCloud /></b-col>
       </b-row>
     </b-container>
   </div>
@@ -12,18 +24,33 @@
 
 <script>
 // @ is an alias to /src
-import MainHeader from '@/components/MainHeader.vue'
-import NewsList from '@/components/NewsList.vue'
-import WordCloud from '@/components/WordCloud.vue'
+import MainHeader from "@/components/MainHeader.vue";
+import NewsList from "@/components/NewsList.vue";
+import WordCloud from "@/components/WordCloud.vue";
 
 export default {
-  name: 'HomeView',
+  name: "HomeView",
   components: {
     MainHeader,
     NewsList,
-    WordCloud
-  }
-}
+    WordCloud,
+  },
+  methods: {
+    async getNewsListByPage(page, limit) {
+      return await this.$store.dispatch("getNewsListByPage", page, limit);
+    },
+  },
+  mounted() {
+    this.getNewsListByPage(0, 5)
+      .then((res) => {
+        console.log(res.data);
+        this.$store.commit("SET_NEWS_LIST", res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+};
 </script>
 
 <style scoped>
