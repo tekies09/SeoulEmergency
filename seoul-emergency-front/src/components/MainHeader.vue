@@ -1,8 +1,8 @@
 <template>
   <div class="header">
     <b-navbar variant="faded" type="light">
-      <b-navbar-brand>
-        <a href="/map"><img src="../assets/logo.png" class="d-inline-block align-top logo-img" alt="Seoul Emergency"></a>
+      <b-navbar-brand to="/map">
+        <img src="../assets/logo.png" class="d-inline-block align-top logo-img" alt="Seoul Emergency">
       </b-navbar-brand>
       <b-navbar-nav>
         <b-nav-item v-if="this.$route.name !== 'map'" to="/map">

@@ -21,7 +21,14 @@ export default new Vuex.Store({
       { value: "민방위", text: "민방위"}
     ],
     searchShelterList: [],      // 검색 API로 얻은 대피소 리스트
-    newsList: [],   // 뉴스 API로 얻은 재난 뉴스 리스트
+    newsList: [
+      {
+        id: 0,
+        newsTitle: "example",
+        newsLink: "",
+        newsContent: "example"
+      }
+    ],   // 뉴스 API로 얻은 재난 뉴스 리스트
     isSearch: false,
   },
   getters: {
@@ -111,13 +118,13 @@ export default new Vuex.Store({
       });
     },
     // 뉴스 리스트 페이지로 불러오기
-    getNewsListByPage({ state }, page, limit) {
-      console.log('뉴스 리스트 페이지 별 불러오기', state);
-      const url = '/api/news/list/';
+    getNewsListByPage({ state }, {page, limit}) {
+      console.log('뉴스 리스트 페이지 별 불러오기', state.newsList);
+      const url = `/api/news/list/page`;
       return backAxios.get(url, {
         params: {
-          page,
-          limit
+          page: page,
+          limit: limit
         }
       });
     }

@@ -7,18 +7,18 @@
           v-bind:key="news.id">
             <div class="news-left">
               <a href="#" target="_blank">
-                <img src="https://via.placeholder.com/120x140?text=News" />
+                <img src="https://via.placeholder.com/120x120?text=News" />
               </a>
             </div>
+            <a v-bind:href="news.newsLink">
             <div class="news-body">
-              <h4 class="news-heading">
-                <a v-bind:href="news.newsLink">
+              <p class="news-heading">
                   {{news.newsTitle}}
-                </a>
-              </h4>
-              <h5>{{news.newsDate == null ? new Date() : news.newsDate}}</h5>
-              <p>{{news.newsContent.substring(0, 70)}}....</p>
+              </p>
+              <p class="news-date">{{news.newsDate == null ? new Date() : news.newsDate}}</p>
+              <p class="news-content">{{news.newsContent.substring(0, 70)}}….</p>
             </div>
+                </a>
           </li>
         </ul>
       </b-tab>
@@ -44,4 +44,19 @@ export default {
   list-style-type: none;
   display: flex;
 }
+
+.news-heading{
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.news-date{
+  margin-bottom: 5px;
+}
+
+a:link {
+  text-decoration: none;
+  color: #FE6A6A;
+}
+a:visited { color: #8c59b9; }
 </style>
