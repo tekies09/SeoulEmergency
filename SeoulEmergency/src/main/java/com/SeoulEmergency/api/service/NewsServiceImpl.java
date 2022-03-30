@@ -23,14 +23,14 @@ public class NewsServiceImpl implements NewsService {
 	@Override
 	public Page<NewsList> getNewsPage(int page, int limit) {
 		// TODO Auto-generated method stub
-		Query query = new Query();
 		Pageable pageable= PageRequest.of(page, limit);
+		Query query = new Query().with(pageable);
 		List<NewsList> list = mongoTemplate.find(query, NewsList.class);
 		
 		return PageableExecutionUtils.getPage(
                 list,
                 pageable,
-                () -> mongoTemplate.count(query.skip(0).limit(0), NewsList.class)
+                () -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), NewsList.class)
         );
 	}
 	
