@@ -39,7 +39,7 @@
          <li>주소 : {{ searchShelterDetail.earthquakeDetail.address }} </li>
          <li>면적 : {{ searchShelterDetail.earthquakeDetail.equiArea }}㎡ </li>
        </div>
-       <div v-else>
+       <div v-if="this.searchShelterDetail.defenseDetail">
          <li>유형 : 민방위 대피소 </li>
 
          <li>이름 : {{ searchShelterDetail.defenseDetail.name }}</li>
