@@ -1,6 +1,7 @@
 <template>
   <div class="map">
       <!-- 지도 컴포넌트 -->
+      <!-- @zoom_changed="onChangeMap" -->
       <naver-maps
         :width="this.width"
         :height="this.height" 
@@ -8,7 +9,6 @@
         :initLayers="this.initLayers"
         @load="onLoad"
         @dragend="onChangeMap"
-        @zoom_changed="onChangeMap"
       >
         <!-- 마커 컴포넌트 동적 생성 -->
         <div
@@ -21,7 +21,7 @@
             @load="onMarkerLoaded">
           </naver-marker>
         </div>
-        <!-- FIX: 현재 위치 표시 원 -->
+        <!-- 현재 위치 표시 원 -->
         <naver-circle
           v-if="this.currentLocationActive"
           :lat="this.mapOptions.lat" 
@@ -131,15 +131,9 @@ export default {
     // 마커 변화 시 지도 중심점 변화(값은 변하는데 지도 재랜더링 외않되;)
     reFocusMap() {
       if (this.searchShelterList != null || this.searchShelterList.length > 0) {
-        console.log("refocus")
+        console.log("Set map scope")
 
-        this.updateMapCenter(
-          this.searchShelterList[0].location.y, 
-          this.searchShelterList[0].location.x
-        );
-        
-        // 새로운 지도 중심점에 맞춰 지도 이동
-        this.map.setCenter(this.mapOptions.lat, this.mapOptions.lng);
+        this.setMapScope();
       }
     },
     // 현재 위치에서부터 가까운 대피소 10개를 찾는다.
@@ -194,7 +188,7 @@ export default {
       this.updateMapCenter(newLat, newLng);
 
       // 현재 지도 중심을 기준으로 대피소 검색
-      this.findNearestShelters()  
+      this.findNearestShelters()
     },
 
     // 지도의 중심 위치를 갱신한다.
@@ -205,7 +199,39 @@ export default {
 
     // '내 주변 대피소 찾기' 버튼 클릭
     onClickNearBtn() {
+      // zoom 조정
+      this.map.setZoom(14);
+
       this.geofind();
+    },
+
+    // 대피소 리스트에 맞게 지도 범위를 조정한다.
+    setMapScope() {
+      let minLng = this.searchShelterList[0].location.coordinates[0];
+      let maxLng = this.searchShelterList[0].location.coordinates[0];
+      let minLat = this.searchShelterList[0].location.coordinates[1];
+      let maxLat = this.searchShelterList[0].location.coordinates[1];
+
+      this.searchShelterList.forEach(element => {
+        let lng = element.location.coordinates[0];
+        let lat = element.location.coordinates[1];
+
+        minLng = Math.min(minLng, lng);
+        maxLng = Math.max(maxLng, lng);
+        minLat = Math.min(minLat, lat);
+        maxLat = Math.max(maxLat, lat);
+      });
+
+      console.log(`Scope : (${minLat}, ${minLng}) ~ (${maxLat}, ${maxLng})`);
+
+      let newBound = window.naver.maps.LatLngBounds(
+        new window.naver.maps.LatLng(minLat, minLng),
+        new window.naver.maps.LatLng(maxLat, maxLng)
+      );
+
+      this.map.fitBounds(newBound, {
+        margin: 10
+      });
     },
 
     async searchEarthquakeList(location) {
