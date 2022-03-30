@@ -7,7 +7,7 @@
           <div
             v-for="shelter in this.searchShelterList" 
             v-bind:key="shelter.seqNum" @click="showModal(shelter.headCount,shelter.seqNum)">
-            <b-list-group-item>
+            <b-list-group-item href="#">
               <!-- 대피소명, 시설 번호 -->
               <div class="d-flex justify-content-between">
                 <h5 class="mb-1">{{ shelter.name }}</h5>
