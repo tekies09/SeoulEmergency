@@ -5,12 +5,12 @@
         <!-- 사이드바 내부 대피소 리스트 항목 동적 생성 -->
         <b-list-group>
           <div
-            v-for="shelter in this.searchShelterList"
-            v-bind:key="shelter.seqNum">
+            v-for="shelter in this.searchShelterList" 
+            v-bind:key="shelter.seqNum" @click="showModal(shelter.headCount,shelter.seqNum)">
             <b-list-group-item>
               <!-- 대피소명, 시설 번호 -->
               <div class="d-flex justify-content-between">
-                <b-button @click="showModal(shelter.headCount,shelter.seqNum)"><h5 class="mb-1">{{ shelter.name }}</h5></b-button>
+                <h5 class="mb-1">{{ shelter.name }}</h5>
                 <small class="text-muted">No. {{ shelter.seqNum }}</small>
               </div>
               <!-- 대피소 정보 -->
