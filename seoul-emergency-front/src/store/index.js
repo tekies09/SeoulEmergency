@@ -21,6 +21,7 @@ export default new Vuex.Store({
       { value: "민방위", text: "민방위"}
     ],
     searchShelterList: [],      // 검색 API로 얻은 대피소 리스트
+    newsList: [],   // 뉴스 API로 얻은 재난 뉴스 리스트
     isSearch: false,
     shelterDetail:[],
   },
@@ -28,6 +29,10 @@ export default new Vuex.Store({
     // 대피소 리스트 getter
     getSearchShelterList(state) {
       return state.searchShelterList
+    },
+    // 재난 뉴스 리스트 getter
+    getDisasterNewsList(state) {
+      return state.newsList;
     }
   },
   mutations: {
@@ -43,6 +48,10 @@ export default new Vuex.Store({
     setDetailShelter(state, shelterDetail) {
       state.shelterDetail = []
       state.shelterDetail = shelterDetail
+    },
+
+    SET_NEWS_LIST(state, newsList) {
+      state.newsList = newsList
     }
   },
   actions: {
@@ -107,6 +116,7 @@ export default new Vuex.Store({
         params: location,
       });
     },
+
     // SeqNum으로 지진 대피소검색
     searchEarthquakesBySeq({state}, payload) {
       console.log('searchEarthquakesBySeq', state, payload);
@@ -120,6 +130,17 @@ export default new Vuex.Store({
       return backAxios.get(url)
     },
 
+    // 뉴스 리스트 페이지로 불러오기
+    getNewsListByPage({ state }, page, limit) {
+      console.log('뉴스 리스트 페이지 별 불러오기', state);
+      const url = '/api/news/list/';
+      return backAxios.get(url, {
+        params: {
+          page,
+          limit
+        }
+      });
+    }
   },
   modules: {
   },
