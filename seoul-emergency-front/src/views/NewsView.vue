@@ -5,13 +5,12 @@
       <b-row>
         <b-col>
           <b-row>
-            <b-col style="width: 100%; text-align: center">
-              <NewsList style="min-width: 540px;" />
+            <b-col style="width: 100%;">
+              <NewsList />
               <b-pagination
                 v-model="currentPage"
                 :total-rows="this.$store.state.newsListCount"
-                :per-page="5"
-                aria-controls="my-table"
+                :per-page="4"
                 align="center"
               ></b-pagination>
             </b-col>
@@ -51,7 +50,7 @@ export default {
   watch: {
     // ! currentPage 변수가 바뀌면 뉴스 리스트를 다시 불러오는 식으로 페이지네이션 해결!
     currentPage () {
-      this.getNewsListByPage(this.currentPage - 1, 5)
+      this.getNewsListByPage(this.currentPage - 1, 4)
       .then((res) => {
         // console.log("뉴스리스트",res.data.content);
         this.$store.commit("SET_NEWS_LIST", res.data.content);
@@ -62,7 +61,7 @@ export default {
     }
   },
   mounted() {
-    this.getNewsListByPage(this.currentPage - 1, 5)
+    this.getNewsListByPage(this.currentPage - 1, 4)
       .then((res) => {
         // console.log("뉴스리스트",res.data.content);
         this.$store.commit("SET_NEWS_LIST", res.data.content);
