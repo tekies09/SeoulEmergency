@@ -80,12 +80,12 @@ export default {
       return this.searchInput.length !== 1 ? true : false
     }
   },
-  // Reverse Geocoding 주석
-  // watch: {
-  //   checkCurrentLocation() {
-  //     this.onChangeMapAddress();
-  //   }
-  // },
+  // Reverse Geocoding
+  watch: {
+    checkCurrentLocation() {
+      this.onChangeMapAddress();
+    }
+  },
   methods: {
     searchKoreanOnly() {
       const pattern = /[a-z0-9]|[ [\]{}()<>?|`~!@#$%^&*-_+=,.;:"'\\]/g;
@@ -94,7 +94,11 @@ export default {
     onChangeMapAddress() {
       this.fillMapCenterAddress()
       .then((res) => {
-        this.mapAddress = res.results.region.area1.name + ' ' + res.results.region.area2.name + ' ' + res.results.region.area3.name + ' ' + res.results.region.area4.name;
+        // geocoding 데이터가 없는 경우 예외 처리
+        if (res.data.results.length > 0) {
+          this.mapAddress = `${res.data.results[0].region.area1.name} ${res.data.results[0].region.area2.name} ${res.data.results[0].region.area3.name} ${res.data.results[0].region.area4.name}`;
+        }
+        console.log('주소 : ', this.mapAddress)
       })
       .catch((err) => {
         console.log(err);
