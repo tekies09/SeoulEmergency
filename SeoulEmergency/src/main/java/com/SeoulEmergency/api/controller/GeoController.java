@@ -2,6 +2,7 @@ package com.SeoulEmergency.api.controller;
 
 
 import org.springframework.http.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/geo")
+@CrossOrigin(origins="*", allowedHeaders="*")
 public class GeoController extends RootController {
 
     @GetMapping
@@ -50,8 +52,7 @@ public class GeoController extends RootController {
 
         return response;
     }
-
-    // 위에서 사용하려고 만든 util 메소드
+    
     private static String mapToUrlParam(Map<String, String> params) {
         StringBuffer paramData = new StringBuffer();
 
