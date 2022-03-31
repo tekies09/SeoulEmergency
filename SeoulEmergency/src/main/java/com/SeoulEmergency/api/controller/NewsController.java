@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RequestMapping("/api/news")
 @CrossOrigin(origins="*", allowedHeaders="*")
 @Api(value = "뉴스 리스트 API", tags="뉴스 리스트 API")
-public class NewsController {
+public class NewsController extends RootController {
 
 	@Autowired
 	private NewsService newsService;
