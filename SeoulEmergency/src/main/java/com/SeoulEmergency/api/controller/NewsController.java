@@ -61,4 +61,11 @@ public class NewsController extends RootController {
 		Page<NewsList> responseDto = newsService.getNewsPage(page, limit);
 		return ResponseEntity.status(200).body(responseDto);
 	}
+	
+	@GetMapping("/list/allcount")
+	@Operation(summary = "전체 뉴스 개수 반환 API", description = "DB 내 저장된 전체 뉴스의 개수를 반환합니다.")
+	public ResponseEntity<Long> showAllNewsListCount() {
+		long allNewsCount = newsService.getNewsCount();
+		return ResponseEntity.status(200).body(allNewsCount);
+	}
 }

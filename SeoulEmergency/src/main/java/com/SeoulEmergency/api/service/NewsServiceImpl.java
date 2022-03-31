@@ -43,4 +43,9 @@ public class NewsServiceImpl implements NewsService {
 		return list;
 	}
 
+	@Override
+	public long getNewsCount() {
+		Query query = new Query();
+		return mongoTemplate.count(query, NewsList.class);
+	}
 }
