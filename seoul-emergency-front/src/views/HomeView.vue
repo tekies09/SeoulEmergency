@@ -18,6 +18,7 @@ export default {
   methods: {
     clickCategoryBtn(category) {
       this.$store.commit('SET_CATEGORY', category);
+      this.$store.commit('SET_CATEGORY2', "지역");
     }
   }
 }

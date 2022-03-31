@@ -5,17 +5,12 @@
       <SearchBar/>
 
       <div class="tags">
-        <b-button variant="light">#성북</b-button>
-        <b-button variant="light">#강남</b-button>
-        <b-button variant="light">#중구</b-button>
-
         <b-button v-b-toggle.sidebar-right>사이드바</b-button>
       </div>
 
       <!-- 지도 컴포넌트 -->
       <div class="map-component">
         <MainMap/>
-        <!-- <img src="https://via.placeholder.com/900x800?text=Map+Place+Holder" alt="Map Place Holder" class="map-component"> -->
       </div>
       <!-- 대피소 리스트 사이드바 컴포넌트 -->
       <div class="list-component">

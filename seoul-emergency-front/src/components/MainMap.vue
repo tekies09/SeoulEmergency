@@ -54,8 +54,8 @@ export default {
   data() {
     return {
       // 지도를 위한 정보들
-      width: 1200,
-      height: 600,
+      width: window.innerWidth*0.95,
+      height: window.innerHeight*0.68,
       info: false,
       marker: null,
       currentLocationActive: false,
@@ -199,6 +199,8 @@ export default {
     updateMapCenter(lat, lng) {
       this.mapOptions.lat = lat;
       this.mapOptions.lng = lng;
+      this.$store.commit('SET_LOCATION_LAT', lat);
+      this.$store.commit('SET_LOCATION_LON', lng);
     },
 
     // '내 주변 대피소 찾기' 버튼 클릭
@@ -238,6 +240,11 @@ export default {
       });
     },
 
+    mapResize() {
+      const size = new window.naver.maps.Size(window.innerWidth*0.95, window.innerHeight*0.68);
+      this.map.setSize(size);
+    },
+
     async searchEarthquakeList(location) {
       return await this.$store.dispatch('searchNearestEarthquakes', location)
     },
@@ -251,7 +258,11 @@ export default {
     }
   },
   mounted() {
-  }
+    window.addEventListener('resize', this.mapResize);
+  },
+  beforeDestroy() {
+    window.addEventListener('resize', this.mapResize);
+  },
 }
 </script>
 
