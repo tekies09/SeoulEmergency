@@ -26,19 +26,23 @@
           v-if="this.currentLocationActive"
           :lat="this.mapOptions.lat" 
           :lng="this.mapOptions.lng" 
-          :radius="10"
+          :radius="20"
           :moreOptions="{
             strokeColor: '#fe6a6a',
             fillColor: '#fe6a6a',
             fillOpacity: 0.7,
           }"
         />
+        <!-- 내 주변 대피소 찾기 버튼 -->
         <b-button
-          squared variant="danger"
+          variant="light"
           id="near-shelter-btn"
           @click="onClickNearBtn"
         >
-          내 주변 대피소 찾기
+          <svg width="36px" height="36px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="find-icon">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M13 4.069V2h-2v2.069A8.01 8.01 0 0 0 4.069 11H2v2h2.069A8.008 8.008 0 0 0 11 19.931V22h2v-2.069A8.007 8.007 0 0 0 19.931 13H22v-2h-2.069A8.008 8.008 0 0 0 13 4.069zM12 18c-3.309 0-6-2.691-6-6s2.691-6 6-6 6 2.691 6 6-2.691 6-6 6z"/>
+          </svg>
         </b-button>
       </naver-maps>
   </div>
@@ -254,10 +258,22 @@ export default {
 <style>
 #near-shelter-btn {
   position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 4px 8px;
-  z-index: 100
+  bottom: 2rem;
+  right: 1.4rem;
+  padding: 4px;
+  z-index: 1000;
+  background-color: #fe6a6a;
+  opacity: 1;
+  transition: 50ms linear; 
+}
+
+#near-shelter-btn:hover {
+  transform: scale(1.1);
+  opacity: 1;
+  background-color: #ff4040;
+}
+
+#find-icon {
+  fill: white;
 }
 </style>
