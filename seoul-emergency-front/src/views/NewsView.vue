@@ -6,12 +6,13 @@
         <b-col>
           <b-row>
             <b-col style="width: 100%; text-align: center">
-              <NewsList />
+              <NewsList style="min-width: 540px;" />
               <b-pagination
                 v-model="currentPage"
-                :total-rows="this.$store.state.newsList.length"
-                :per-page="perPage"
+                :total-rows="this.$store.state.newsListCount"
+                :per-page="5"
                 aria-controls="my-table"
+                align="center"
               ></b-pagination>
             </b-col>
           </b-row>
@@ -37,15 +38,42 @@ export default {
   },
   methods: {
     async getNewsListByPage(page, limit) {
-      return await this.$store.dispatch("getNewsListByPage", {page, limit});
+      return await this.$store.dispatch("getNewsListByPage", { page, limit });
+    },
+    async getNewsListCount() {
+      return await this.$store.dispatch("getAllNewsCount");
+    },
+    pageClick: function (button, page) {
+      this.currentPage = page;
+      this.getNoticeListByPage(page);
     },
   },
-  computed: {},
-  mounted() {
-    this.getNewsListByPage(0, 4)
+  watch: {
+    // ! currentPage 변수가 바뀌면 뉴스 리스트를 다시 불러오는 식으로 페이지네이션 해결!
+    currentPage () {
+      this.getNewsListByPage(this.currentPage - 1, 5)
       .then((res) => {
         // console.log("뉴스리스트",res.data.content);
-          this.$store.commit("SET_NEWS_LIST", res.data.content);
+        this.$store.commit("SET_NEWS_LIST", res.data.content);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+  },
+  mounted() {
+    this.getNewsListByPage(this.currentPage - 1, 5)
+      .then((res) => {
+        // console.log("뉴스리스트",res.data.content);
+        this.$store.commit("SET_NEWS_LIST", res.data.content);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    this.getNewsListCount()
+      .then((res) => {
+        // console.log(res.data);
+        this.$store.commit("SET_NEWS_LIST_COUNT", res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -53,7 +81,6 @@ export default {
   },
   data() {
     return {
-      perPage: 3,
       currentPage: 1,
     }
   }
