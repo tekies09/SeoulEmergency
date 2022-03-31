@@ -14,11 +14,17 @@ const backAxios = axios.create({
 export default new Vuex.Store({
   state: {
     category: "",
+    category2: "",
     options: [
       { value: "", text: "대피소 종류 선택"},
       { value: "지진", text: "지진"},
       { value: "해일", text: "해일"},
       { value: "민방위", text: "민방위"}
+    ],
+    options2: [
+      { value: "", text: "검색 옵션"},
+      { value: "지역", text: "지역"},
+      { value: "이름", text: "이름"}
     ],
     searchShelterList: [],      // 검색 API로 얻은 대피소 리스트
     newsList: [
@@ -31,6 +37,8 @@ export default new Vuex.Store({
     ],   // 뉴스 API로 얻은 재난 뉴스 리스트
     isSearch: false,
     shelterDetail:[],
+    currentLat: 37.5666805,
+    currentLon: 126.9784147
   },
   getters: {
     // 대피소 리스트 getter
@@ -40,6 +48,12 @@ export default new Vuex.Store({
     // 재난 뉴스 리스트 getter
     getDisasterNewsList(state) {
       return state.newsList;
+    },
+    getCurrentLatitude(state) {
+      return state.currentLat;
+    },
+    getCurrentLongitude(state) {
+      return state.currentLon;
     }
   },
   mutations: {
@@ -59,6 +73,17 @@ export default new Vuex.Store({
 
     SET_NEWS_LIST(state, newsList) {
       state.newsList = newsList
+    },
+    // 대피소 검색 종류 setter
+    SET_CATEGORY2(state, category2) {
+      state.category2 = category2;
+    },
+    // 현재 좌표 setter
+    SET_LOCATION_LAT(state, latitude) {
+      state.currentLat = latitude;
+    },
+    SET_LOCATION_LON(state, longitude) {
+      state.currentLon = longitude;
     }
   },
   actions: {
@@ -145,6 +170,33 @@ export default new Vuex.Store({
         params: {
           page: page,
           limit: limit
+        }
+      });
+    },
+
+    // 네이버 Reverse Geocoding API axios
+    getReverseGeocoding({state}, location) {
+      // 민감정보!!!
+      // ------------------------------------------------------------
+      const clientID = 'ttsrjtbjqw';
+      const clientSecret= 'etV9ZLeuNvftyEOKgC88jzSndiuGNDnlTMdLpsWt';
+      // ------------------------------------------------------------
+
+      const url = 'https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc';
+
+      const coordinates = location;
+
+      console.log('네이버 Reverse Geocoding', state);
+      return axios.get(url, {
+        headers: {
+          'X-NCP-APIGW-API-KEY-ID': clientID,
+          'X-NCP-APIGW-API-KEY': clientSecret
+        },
+        params: {
+          request: 'coordsToaddr',
+          coords: coordinates,
+          orders: 'roadaddr',
+          output: 'json'
         }
       });
     }
