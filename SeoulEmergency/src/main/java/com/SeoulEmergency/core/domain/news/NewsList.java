@@ -21,6 +21,7 @@ public class NewsList {
 	public String newsLink;
 	public String newsContent;
 	public String newsDate;
+	public String newsImage;
 	
 	@Builder
 	public NewsList(String newsTitle, String newsLink, String newsContent) {
@@ -30,16 +31,13 @@ public class NewsList {
 	}
 	
 	@Builder
-	public NewsList(String newsTitle, String newsLink, String newsContent, String newsDate) {
+	public NewsList(String newsTitle, String newsLink, String newsContent, String newsDate, String newsImage) {
 		this.newsTitle = newsTitle;
 		this.newsLink = newsLink;
 		this.newsContent = newsContent;
 		this.newsDate = newsDate;
+		this.newsImage = newsImage;
 	}
-	
-//	public void update(String newsTitle, String newsLink) {
-//		
-//	}
 	
 	@Override
 	public String toString() {
