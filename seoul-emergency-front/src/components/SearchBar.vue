@@ -9,6 +9,7 @@
           type="search"
           placeholder="대피소 검색"
           @keyup.enter="searchClicked"
+          @keypress="searchKoreanOnly"
           list="seoul-district-list"
           :state="searchInputState"
           aria-describedby="input-live-help input-live-feedback"
@@ -27,7 +28,7 @@
       </b-input-group>
 
       <b-form-invalid-feedback v-if="searchInput.length === 1" id="input-live-feedback">
-        2글자 이상 입력해주세요.
+        한글로 2글자 이상 입력해주세요.
       </b-form-invalid-feedback>
       <p>지도 중심점 주소: {{ mapAddress }}</p>
   </div>
@@ -75,7 +76,7 @@ export default {
       return `${this.$store.getters.getCurrentLatitude} | ${this.$store.getters.getCurrentLongitude}`;
     },
     searchInputState() {
-      return this.searchInput.length > 1 ? true : false
+      return this.searchInput.length !== 1 ? true : false
     }
   },
   watch: {
@@ -84,6 +85,10 @@ export default {
     }
   },
   methods: {
+    searchKoreanOnly() {
+      const pattern = /[a-z0-9]|[ [\]{}()<>?|`~!@#$%^&*-_+=,.;:"'\\]/g;
+      this.searchInput = this.searchInput.replace(pattern, '');
+    },
     onChangeMapAddress() {
       this.fillMapCenterAddress()
       .then((res) => {
