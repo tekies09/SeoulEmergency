@@ -9,4 +9,5 @@ import com.SeoulEmergency.core.domain.news.NewsList;
 public interface NewsService {
 	Page<NewsList> getNewsPage(int page, int limit);
 	List<NewsList> getNewsList(int page, int limit);
+	long getNewsCount();
 }
