@@ -28,7 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins="*", allowedHeaders="*")
 @RequestMapping("/api/shelters")
-public class ShelterController {
+public class ShelterController extends RootController {
 
     @Autowired
     ShelterService shelterService;
