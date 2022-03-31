@@ -50,8 +50,8 @@ export default {
   data() {
     return {
       // 지도를 위한 정보들
-      width: 1200,
-      height: 600,
+      width: window.innerWidth*0.95,
+      height: window.innerHeight*0.68,
       info: false,
       marker: null,
       currentLocationActive: false,
