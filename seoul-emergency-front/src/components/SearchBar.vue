@@ -30,8 +30,8 @@
       <b-form-invalid-feedback v-if="searchInput.length === 1" id="input-live-feedback">
         한글로 2글자 이상 입력해주세요.
       </b-form-invalid-feedback>
-      <!-- Reverse Geocoding 주석 -->
-      <!-- <p>지도 중심점 주소: {{ mapAddress }}</p> -->
+      
+      <p>지도 중심점 주소: {{ mapAddress }}</p>
   </div>
 </template>
 
