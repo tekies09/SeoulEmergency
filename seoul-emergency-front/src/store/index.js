@@ -179,26 +179,14 @@ export default new Vuex.Store({
     },
 
     // 네이버 Reverse Geocoding API axios
-    getReverseGeocoding({ state }, location) {
-      // ! 민감정보!!!
-      // ------------------------------------------------------------
-      const clientID = 'ttsrjtbjqw';
-      const clientSecret = 'etV9ZLeuNvftyEOKgC88jzSndiuGNDnlTMdLpsWt';
-      // ------------------------------------------------------------
-      const url = 'https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc';
-      const coordinates = location;
-      console.log('네이버 Reverse Geocoding', state);
-      return axios.get(url, {
-        headers: {
-          'X-NCP-APIGW-API-KEY-ID': clientID,
-          'X-NCP-APIGW-API-KEY': clientSecret
-        },
-        params: {
-          request: 'coordsToaddr',
-          coords: coordinates,
-          orders: 'roadaddr',
-          output: 'json'
-        }
+    getReverseGeocoding({state}, location) {
+      console.log(state);
+
+      const url = '/api/geo';
+      return backAxios.get(url, {
+          params: {
+              location: location,
+          }
       });
     },
     // 뉴스 리스트 총 개수 불러오기
