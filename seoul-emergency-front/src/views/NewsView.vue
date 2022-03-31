@@ -9,7 +9,7 @@
               <NewsList />
               <b-pagination
                 v-model="currentPage"
-                :total-rows="rows"
+                :total-rows="this.$store.state.newsList.length"
                 :per-page="perPage"
                 aria-controls="my-table"
               ></b-pagination>
@@ -37,19 +37,26 @@ export default {
   },
   methods: {
     async getNewsListByPage(page, limit) {
-      return await this.$store.dispatch("getNewsListByPage", page, limit);
+      return await this.$store.dispatch("getNewsListByPage", {page, limit});
     },
   },
+  computed: {},
   mounted() {
-    this.getNewsListByPage(0, 5)
+    this.getNewsListByPage(0, 4)
       .then((res) => {
-        console.log(res.data);
-        this.$store.commit("SET_NEWS_LIST", res.data);
+        // console.log("뉴스리스트",res.data.content);
+          this.$store.commit("SET_NEWS_LIST", res.data.content);
       })
       .catch((err) => {
         console.log(err);
       });
   },
+  data() {
+    return {
+      perPage: 3,
+      currentPage: 1,
+    }
+  }
 };
 </script>
 
