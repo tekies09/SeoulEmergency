@@ -73,8 +73,8 @@ export default {
 
 .news-body {
   width: 100%;
-  margin: 0 auto;
-  text-align: center;
+  margin: auto 15px;
+  text-align: left;
 }
 
 a:link {
