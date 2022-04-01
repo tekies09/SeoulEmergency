@@ -24,12 +24,12 @@
 
 <script>
 // @ is an alias to /src
-import MainHeader from "@/components/MainHeader.vue";
-import NewsList from "@/components/NewsList.vue";
-import WordCloud from "@/components/WordCloud.vue";
+import MainHeader from '@/components/MainHeader.vue';
+import NewsList from '@/components/NewsList.vue';
+import WordCloud from '@/components/WordCloud.vue';
 
 export default {
-  name: "HomeView",
+  name: 'HomeView',
   components: {
     MainHeader,
     NewsList,
@@ -37,14 +37,26 @@ export default {
   },
   methods: {
     async getNewsListByPage(page, limit) {
-      return await this.$store.dispatch("getNewsListByPage", page, limit);
+      return await this.$store.dispatch('getNewsListByPage', page, limit);
+    },
+    async getWordsList() {
+      return await this.$store.dispatch('getWordsList');
     },
   },
   mounted() {
     this.getNewsListByPage(0, 5)
       .then((res) => {
         console.log(res.data);
-        this.$store.commit("SET_NEWS_LIST", res.data);
+        this.$store.commit('SET_NEWS_LIST', res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    this.getWordsList()
+      .then((res) => {
+        // console.log(res.data);
+        this.$store.commit('SET_WORDS_LIST', res.data);
       })
       .catch((err) => {
         console.log(err);
