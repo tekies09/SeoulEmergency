@@ -1,5 +1,7 @@
 <template>
   <div class="search">
+    <p>지도 중심점 주소: {{ mapAddress }}</p>
+
     <b-input-group>
       <b-form-select
         v-model="$store.state.category"
@@ -38,7 +40,23 @@
       한글로 2글자 이상 입력해주세요.
     </b-form-invalid-feedback>
 
-    <p>지도 중심점 주소: {{ mapAddress }}</p>
+    <b-modal 
+      id="input-modal"
+      v-model="searchInputInvalidModal" 
+      centered
+      title="입력 오류"
+      hide-footer
+    >
+      <div class="d-block text-center">
+        <h4>검색 시 한글로 2글자 이상 입력해주세요.</h4>
+      </div>
+      <b-button 
+        block
+        variant="danger" 
+        @click="$bvModal.hide('input-modal')"
+        style="width: 100%; margin-top: 5px;"
+      >창 닫기</b-button>
+    </b-modal>
   </div>
 </template>
 
@@ -49,6 +67,7 @@ export default {
       searchInput: '',
       categoryInput: null,
       categoryInput2: null,
+      searchInputInvalidModal: false,
       mapAddress: '서울 시청',
       districts: [
         '강남구',
@@ -546,6 +565,9 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.onChangeMapAddress();
+  },
   computed: {
     checkCurrentLocation() {
       return `${this.$store.getters.getCurrentLatitude} | ${this.$store.getters.getCurrentLongitude}`;
@@ -571,6 +593,8 @@ export default {
           // geocoding 데이터가 없는 경우 예외 처리
           if (res.data.results.length > 0) {
             this.mapAddress = `${res.data.results[0].region.area1.name} ${res.data.results[0].region.area2.name} ${res.data.results[0].region.area3.name} ${res.data.results[0].region.area4.name}`;
+          } else {
+            this.mapAddress = '';
           }
           console.log('주소 : ', this.mapAddress);
         })
@@ -648,6 +672,8 @@ export default {
         }
 
         this.$store.state.isSearch = true;
+      } else {
+        this.searchInputInvalidModal = !this.searchInputInvalidModal;
       }
     },
 
