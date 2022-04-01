@@ -106,13 +106,13 @@ export default new Vuex.Store({
     // 해일 대피소 지역명 검색 axios
     searchTsunamisByArea({ state }, payload) {
       console.log("searchTsunamisByArea", state, payload);
-      const url = `/api/shelters/areasearch/tsunamis/${payload}`;
+      const url = `/api/shelters/areasearch/earthquakes/${payload}`;
       return backAxios.get(url);
     },
     // 해일 대피소 이름 검색 axios
     searchTsunamisByName({ state }, payload) {
       console.log("searchTsunamisByName", state, payload);
-      const url = `/api/shelters/namesearch/tsunamis/${payload}`;
+      const url = `/api/shelters/namesearch/earthquakes/${payload}`;
       return backAxios.get(url);
     },
     // 민방위 대피소 지역명 검색 axios
