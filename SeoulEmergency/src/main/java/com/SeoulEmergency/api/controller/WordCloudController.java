@@ -29,7 +29,7 @@ public class WordCloudController {
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "OK")
     })
-    public ResponseEntity<List<WordCloud>> getWordList() throws Exception{
+    public ResponseEntity<List<WordCloudRes>> getWordList() throws Exception{
 
 
         return ResponseEntity.ok(wordCloudService.getWordList());

@@ -6,5 +6,5 @@ import com.SeoulEmergency.core.domain.WordCloud;
 import java.util.List;
 
 public interface WordCloudService {
-    List<WordCloud> getWordList() throws Exception;
+    List<WordCloudRes> getWordList() throws Exception;
 }
