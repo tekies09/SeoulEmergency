@@ -145,7 +145,7 @@ export default {
             console.log(err)
           })
         } else if (categoryInput === "지진" && categoryInput2 === "이름") {
-          this.searchDefensesByName()
+          this.searchEarthquakesByName()
           .then((res) => {
             // API 호출 결과로 얻은 대피소 리스트를 store에 반영
             this.$store.commit('setSearchShelterList', res.data)
@@ -154,7 +154,7 @@ export default {
             console.log(err)
           })
         } else if (categoryInput === "해일" && categoryInput2 === "이름") {
-          this.searchDefensesByName()
+          this.searchTsunamisByName()
           .then((res) => {
             // API 호출 결과로 얻은 대피소 리스트를 store에 반영
             this.$store.commit('setSearchShelterList', res.data)
