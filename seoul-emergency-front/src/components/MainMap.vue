@@ -57,6 +57,7 @@
 
         <div class="map-link">
           <b-button variant="success" :href="searchNaverMapURL" target="_blank" rel="noopener noreferrer">네이버 지도</b-button>
+          <b-button variant="warning" :href="searchKakaoMapURL" target="_blank" rel="noopener noreferrer">카카오 지도</b-button>
       </div>
       </div>
 
@@ -82,6 +83,7 @@
 
         <div class="map-link">
           <b-button variant="success" :href="searchNaverMapURL" target="_blank" rel="noopener noreferrer">네이버 지도</b-button>
+          <b-button variant="warning" :href="searchKakaoMapURL" target="_blank" rel="noopener noreferrer">카카오 지도</b-button>
       </div>
       </div>
       <!-- type 비어잇지않으면 지금은 민방위정보임 -->
@@ -103,7 +105,9 @@ export default {
       count: 1,
       map: null,
       isCTT: false,
-      initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE']
+      initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE'],
+      naverMapURL: "https://map.naver.com",
+      kakaoMapURL: "https://map.kakao.com"
     }
   },
   computed: {
@@ -129,6 +133,10 @@ export default {
     searchNaverMapURL() {
       this.setNaverMapURL();
       return this.naverMapURL;
+    },
+    searchKakaoMapURL() {
+      this.setKakaoMapURL();
+      return this.kakaoMapURL;
     }
   },
   watch: {
@@ -144,13 +152,21 @@ export default {
     // ------------------------------------------------------------------
     setNaverMapURL() {
       if(this.searchShelterDetail.earthquakeDetail) {
-        this.checkMobileType(this.searchShelterDetail.earthquakeDetail.name);
+        this.checkNaverMobileType(this.searchShelterDetail.earthquakeDetail.name);
       } else if(this.searchShelterDetail.defenseDetail) {
-        this.checkMobileType(this.searchShelterDetail.defenseDetail.name);
+        this.checkNaverMobileType(this.searchShelterDetail.defenseDetail.name);
       }
       return this.naverMapURL;
     },
-    checkMobileType(queryString) {
+    setKakaoMapURL() {
+      if(this.searchShelterDetail.earthquakeDetail) {
+        this.checkKakaoMobileType(this.searchShelterDetail.earthquakeDetail.name);
+      } else if(this.searchShelterDetail.defenseDetail) {
+        this.checkKakaoMobileType(this.searchShelterDetail.defenseDetail.name);
+      }
+      return this.kakaoMapURL;
+    },
+    checkNaverMobileType(queryString) {
       const userAgent = navigator.userAgent.toLowerCase();
       if(userAgent.indexOf('android') > -1) {
         this.naverMapURL = `intent://search?query=${queryString}&appname=j6a403.p.ssafy.io#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;
@@ -161,6 +177,17 @@ export default {
         this.naverMapURL = `https://map.naver.com/search/${queryString}`;
       }
     },
+    checkKakaoMobileType(queryString) {
+      const userAgent = navigator.userAgent.toLowerCase();
+      if(userAgent.indexOf('android') > -1) {
+        this.kakaoMapURL = `intent://search?q=${queryString}#Intent;scheme=kakaomap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=net.daum.android.map;end`;
+      } else if (userAgent.indexOf('iphone') > -1) {
+        this.kakaoMapURL = `kakaomap://search?q=${queryString}`;
+        this.kakaoMapURL = this.iosKakaoMap(this.kakaoMapURL);
+      } else {
+        this.kakaoMapURL = `https://map.kakao.com/link/search/${queryString}`;
+      }
+    },
     iosNaverMap(URL) {
       let clickedAt = +new Date();
       let returnURL = URL;
@@ -168,6 +195,18 @@ export default {
       setTimeout(() => {
         if(+new Date() - clickedAt < 2000) {
           returnURL = 'http://itunes.apple.com/app/id311867728?mt=8';
+        }
+      }, 1500);
+
+      return returnURL;
+    },
+    iosKakaoMap(URL) {
+      let clickedAt = +new Date();
+      let returnURL = URL;
+
+      setTimeout(() => {
+        if(+new Date() - clickedAt < 2000) {
+          returnURL = 'https://itunes.apple.com/app/id304608425?mt=8';
         }
       }, 1500);
 
@@ -407,5 +446,12 @@ export default {
 
 #find-icon {
   fill: white;
+}
+
+.map-link {
+  margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 </style>
