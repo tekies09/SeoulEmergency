@@ -17,7 +17,7 @@
           <naver-marker
             :lat=shelter.location.y
             :lng=shelter.location.x
-            @click="onMarkerClicked" 
+            @click="showModal(shelter.headCount, shelter.seqNum)" 
             @load="onMarkerLoaded">
           </naver-marker>
         </div>
@@ -45,6 +45,49 @@
           </svg>
         </b-button>
       </naver-maps>
+
+      <!-- 모달 창 (추후 리팩토링 필요) -->
+      <b-modal ref="my-modal" hide-footer title="자세히보기">
+      <!-- type 비어잇으면 지금은 지진정보임 -->
+      <div v-if="this.searchShelterDetail.earthquakeDetail">
+        <li>유형 : 지진/해일 대피소</li>
+        <li>이름 : {{ searchShelterDetail.earthquakeDetail.name }}</li>
+        <li>주소 : {{ searchShelterDetail.earthquakeDetail.address }}</li>
+        <li>면적 : {{ searchShelterDetail.earthquakeDetail.equiArea }}㎡</li>
+
+        <div class="map-link">
+          <b-button variant="success" :href="searchNaverMapURL" target="_blank" rel="noopener noreferrer">네이버 지도</b-button>
+          <b-button variant="warning" :href="searchKakaoMapURL" target="_blank" rel="noopener noreferrer">카카오 지도</b-button>
+      </div>
+      </div>
+
+      <div v-if="this.searchShelterDetail.defenseDetail">
+        <li>유형 : 민방위 대피소</li>
+
+        <li>이름 : {{ searchShelterDetail.defenseDetail.name }}</li>
+        <li>주소 : {{ searchShelterDetail.defenseDetail.address }}</li>
+        <li>면적 : {{ searchShelterDetail.defenseDetail.equiArea }}㎡</li>
+        <li>수용인원 : {{ searchShelterDetail.defenseDetail.headCount }}</li>
+        <li>
+          1인당 수용할수 있는 면적 :
+          {{
+            calparea(
+              searchShelterDetail.defenseDetail.equiArea,
+              searchShelterDetail.defenseDetail.headCount
+            )
+          }}㎡
+        </li>
+        <li>활용목적 : {{ searchShelterDetail.defenseDetail.type }}</li>
+        <li>개방여부 : {{ searchShelterDetail.defenseDetail.isOpen }}</li>
+        <li>데이터 갱신일자 : {{ searchShelterDetail.defenseDetail.date }}</li>
+
+        <div class="map-link">
+          <b-button variant="success" :href="searchNaverMapURL" target="_blank" rel="noopener noreferrer">네이버 지도</b-button>
+          <b-button variant="warning" :href="searchKakaoMapURL" target="_blank" rel="noopener noreferrer">카카오 지도</b-button>
+      </div>
+      </div>
+      <!-- type 비어잇지않으면 지금은 민방위정보임 -->
+    </b-modal>
   </div>
 </template>
 
@@ -62,7 +105,9 @@ export default {
       count: 1,
       map: null,
       isCTT: false,
-      initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE']
+      initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE'],
+      naverMapURL: "https://map.naver.com",
+      kakaoMapURL: "https://map.kakao.com"
     }
   },
   computed: {
@@ -81,6 +126,18 @@ export default {
         mapTypeControl: true,
       }
     },
+    // 모달용 computed
+    searchShelterDetail() {
+      return this.$store.state.shelterDetail;
+    },
+    searchNaverMapURL() {
+      this.setNaverMapURL();
+      return this.naverMapURL;
+    },
+    searchKakaoMapURL() {
+      this.setKakaoMapURL();
+      return this.kakaoMapURL;
+    }
   },
   watch: {
     // store의 검색 대피소 리스트에 변화가 생기면 지도 중심점 재지정(값은 변하는데 지도 재랜더링이 안됩니다 ㅜㅜ)
@@ -91,6 +148,109 @@ export default {
     }
   },
   methods: {
+    // 모달 용 메서드
+    // ------------------------------------------------------------------
+    setNaverMapURL() {
+      if(this.searchShelterDetail.earthquakeDetail) {
+        this.checkNaverMobileType(this.searchShelterDetail.earthquakeDetail.name);
+      } else if(this.searchShelterDetail.defenseDetail) {
+        this.checkNaverMobileType(this.searchShelterDetail.defenseDetail.name);
+      }
+      return this.naverMapURL;
+    },
+    setKakaoMapURL() {
+      if(this.searchShelterDetail.earthquakeDetail) {
+        this.checkKakaoMobileType(this.searchShelterDetail.earthquakeDetail.name);
+      } else if(this.searchShelterDetail.defenseDetail) {
+        this.checkKakaoMobileType(this.searchShelterDetail.defenseDetail.name);
+      }
+      return this.kakaoMapURL;
+    },
+    checkNaverMobileType(queryString) {
+      const userAgent = navigator.userAgent.toLowerCase();
+      if(userAgent.indexOf('android') > -1) {
+        this.naverMapURL = `intent://search?query=${queryString}&appname=j6a403.p.ssafy.io#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;
+      } else if (userAgent.indexOf('iphone') > -1 || userAgent.indexOf('ipad') > -1) {
+        this.naverMapURL = `nmap://search?query=${queryString}&appname=j6a403.p.ssafy.io`;
+        this.naverMapURL = this.iosNaverMap(this.naverMapURL);
+      } else {
+        this.naverMapURL = `https://map.naver.com/search/${queryString}`;
+      }
+    },
+    checkKakaoMobileType(queryString) {
+      const userAgent = navigator.userAgent.toLowerCase();
+      if(userAgent.indexOf('android') > -1) {
+        this.kakaoMapURL = `intent://search?q=${queryString}#Intent;scheme=kakaomap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=net.daum.android.map;end`;
+      } else if (userAgent.indexOf('iphone') > -1 || userAgent.indexOf('ipad') > -1) {
+        this.kakaoMapURL = `kakaomap://search?q=${queryString}`;
+        this.kakaoMapURL = this.iosKakaoMap(this.kakaoMapURL);
+      } else {
+        this.kakaoMapURL = `https://map.kakao.com/link/search/${queryString}`;
+      }
+    },
+    iosNaverMap(URL) {
+      let clickedAt = +new Date();
+      let returnURL = URL;
+
+      setTimeout(() => {
+        if(+new Date() - clickedAt < 2000) {
+          returnURL = 'http://itunes.apple.com/app/id311867728?mt=8';
+        }
+      }, 1500);
+
+      return returnURL;
+    },
+    iosKakaoMap(URL) {
+      let clickedAt = +new Date();
+      let returnURL = URL;
+
+      setTimeout(() => {
+        if(+new Date() - clickedAt < 2000) {
+          returnURL = 'https://itunes.apple.com/app/id304608425?mt=8';
+        }
+      }, 1500);
+
+      return returnURL;
+    },
+    calparea(area, headcount) {
+      return Math.round((area / headcount) * 100) / 100;
+    },
+    showModal(type, seqNum) {
+      // 모달오픈
+      this.$refs["my-modal"].show();
+
+      if (type == null) {
+        this.DetailEarthquakes(seqNum)
+          .then((res) => {
+            // API 호출 결과로 얻은 대피소 정보를 store에 반영
+            this.$store.commit("setDetailShelter", res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        this.DetailDefenses(seqNum)
+          .then((res) => {
+            // API 호출 결과로 얻은 대피소 정보를 store에 반영
+            this.$store.commit("setDetailShelter", res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
+      console.log(type + " : " + seqNum);
+    },
+    async DetailEarthquakes(seqNum) {
+      // return await this.$store.dispatch('searchEarthquakesByName', this.searchInput)            // 이름 검색
+      return await this.$store.dispatch("searchEarthquakesBySeq", seqNum); // 지명 검색
+    },
+    async DetailDefenses(seqNum) {
+      // return await this.$store.dispatch('searchEarthquakesByName', this.searchInput)            // 이름 검색
+      return await this.$store.dispatch("searchDefensesBySeq", seqNum); // 지명 검색
+    },
+    // ------------------------------------------------------------------
+
     // 지도 로딩
     onLoad(map) {
       this.map = map;
@@ -286,5 +446,12 @@ export default {
 
 #find-icon {
   fill: white;
+}
+
+.map-link {
+  margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 </style>

@@ -17,6 +17,7 @@
     "jquery": "^3.6.0",
     "vue": "^2.6.14",
     "vue-geolocation-api": "^0.1.21",
+    "vue-mobile-detection": "^1.0.0",
     "vue-naver-maps": "^0.14.3",
     "vue-router": "^3.5.1",
     "vue-tag-cloud": "^0.0.1",
