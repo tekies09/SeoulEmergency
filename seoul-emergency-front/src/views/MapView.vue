@@ -5,7 +5,7 @@
       <SearchBar/>
 
       <div class="tags">
-        <b-button v-b-toggle.sidebar-right>사이드바</b-button>
+        <b-button v-b-toggle.sidebar-right id="show-sidebar">대피소 목록 보기</b-button>
       </div>
 
       <!-- 지도 컴포넌트 -->
@@ -59,6 +59,16 @@ export default {
 .map-component {
     width: 95vw;
     height: 68vh;
-    margin: 20px 0 0 20px;
+    margin: 10px 0 0 10px;
+}
+
+#show-sidebar {
+  margin-top: 5px;
+  border-color: white;
+  background-color: #fe6a6a;
+}
+
+#show-sidebar:hover {
+  background-color: #ff4040;
 }
 </style>
