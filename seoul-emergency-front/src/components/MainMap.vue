@@ -170,7 +170,7 @@ export default {
       const userAgent = navigator.userAgent.toLowerCase();
       if(userAgent.indexOf('android') > -1) {
         this.naverMapURL = `intent://search?query=${queryString}&appname=j6a403.p.ssafy.io#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;
-      } else if (userAgent.indexOf('iphone') > -1) {
+      } else if (userAgent.indexOf('iphone') > -1 || userAgent.indexOf('ipad') > -1) {
         this.naverMapURL = `nmap://search?query=${queryString}&appname=j6a403.p.ssafy.io`;
         this.naverMapURL = this.iosNaverMap(this.naverMapURL);
       } else {
@@ -181,7 +181,7 @@ export default {
       const userAgent = navigator.userAgent.toLowerCase();
       if(userAgent.indexOf('android') > -1) {
         this.kakaoMapURL = `intent://search?q=${queryString}#Intent;scheme=kakaomap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=net.daum.android.map;end`;
-      } else if (userAgent.indexOf('iphone') > -1) {
+      } else if (userAgent.indexOf('iphone') > -1 || userAgent.indexOf('ipad') > -1) {
         this.kakaoMapURL = `kakaomap://search?q=${queryString}`;
         this.kakaoMapURL = this.iosKakaoMap(this.kakaoMapURL);
       } else {
