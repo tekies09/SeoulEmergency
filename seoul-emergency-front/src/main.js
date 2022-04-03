@@ -18,6 +18,9 @@ import VueGeolocationApi from 'vue-geolocation-api';
 // import 'expose-loader?$!expose-loader?jQuery!jquery';
 // import jQcloud from './js/jqcloud.min.js';
 
+// Mobile Screen Detection
+import VueMobileDetection from 'vue-mobile-detection';
+
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
@@ -30,6 +33,8 @@ Vue.use(naver, {
 Vue.use(VueGeolocationApi);
 
 // Vue.use(jQcloud);
+
+Vue.use(VueMobileDetection);
 
 Vue.config.productionTip = false;
 
