@@ -36,37 +36,40 @@
     <b-modal ref="my-modal" hide-footer title="자세히보기">
       <!-- type 비어잇으면 지금은 지진정보임 -->
       <div v-if="this.searchShelterDetail.earthquakeDetail">
-        <li>유형 : 지진/해일 대피소</li>
-        <li>이름 : {{ searchShelterDetail.earthquakeDetail.name }}</li>
-        <li>주소 : {{ searchShelterDetail.earthquakeDetail.address }}</li>
-        <li>면적 : {{ searchShelterDetail.earthquakeDetail.equiArea }}㎡</li>
+        <ul class="modal-list">
+          <li>유형 : 지진/해일 대피소</li>
+          <li>이름 : {{ searchShelterDetail.earthquakeDetail.name }}</li>
+          <li>주소 : {{ searchShelterDetail.earthquakeDetail.address }}</li>
+          <li>면적 : {{ searchShelterDetail.earthquakeDetail.equiArea }}㎡</li>
+        </ul>
 
         <div class="map-link">
           <b-button variant="success" :href="searchNaverMapURL" target="_blank" rel="noopener noreferrer">네이버 지도</b-button>
           <b-button variant="warning" :href="searchKakaoMapURL" target="_blank" rel="noopener noreferrer">카카오 지도</b-button>
-      </div>
+        </div>
       </div>
 
       <div v-if="this.searchShelterDetail.defenseDetail">
-        <li>유형 : 민방위 대피소</li>
+        <ul class="modal-list">
+          <li>유형 : 민방위 대피소</li>
 
-        <li>이름 : {{ searchShelterDetail.defenseDetail.name }}</li>
-        <li>주소 : {{ searchShelterDetail.defenseDetail.address }}</li>
-        <li>면적 : {{ searchShelterDetail.defenseDetail.equiArea }}㎡</li>
-        <li>수용인원 : {{ searchShelterDetail.defenseDetail.headCount }}</li>
-        <li>
-          1인당 수용할수 있는 면적 :
-          {{
-            calparea(
-              searchShelterDetail.defenseDetail.equiArea,
-              searchShelterDetail.defenseDetail.headCount
-            )
-          }}㎡
-        </li>
-        <li>활용목적 : {{ searchShelterDetail.defenseDetail.type }}</li>
-        <li>개방여부 : {{ searchShelterDetail.defenseDetail.isOpen }}</li>
-        <li>데이터 갱신일자 : {{ searchShelterDetail.defenseDetail.date }}</li>
-
+          <li>이름 : {{ searchShelterDetail.defenseDetail.name }}</li>
+          <li>주소 : {{ searchShelterDetail.defenseDetail.address }}</li>
+          <li>면적 : {{ searchShelterDetail.defenseDetail.equiArea }}㎡</li>
+          <li>수용인원 : {{ searchShelterDetail.defenseDetail.headCount }}</li>
+          <li>
+            1인당 수용할수 있는 면적 :
+            {{
+              calparea(
+                searchShelterDetail.defenseDetail.equiArea,
+                searchShelterDetail.defenseDetail.headCount
+              )
+            }}㎡
+          </li>
+          <li>활용목적 : {{ searchShelterDetail.defenseDetail.type }}</li>
+          <li>개방여부 : {{ searchShelterDetail.defenseDetail.isOpen }}</li>
+          <li>데이터 갱신일자 : {{ searchShelterDetail.defenseDetail.date }}</li>
+        </ul>
         <div class="map-link">
           <b-button variant="success" :href="searchNaverMapURL" target="_blank" rel="noopener noreferrer">네이버 지도</b-button>
           <b-button variant="warning" :href="searchKakaoMapURL" target="_blank" rel="noopener noreferrer">카카오 지도</b-button>
@@ -220,5 +223,13 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+.text-left {
+  list-style: none;
+}
+
+.modal-list {
+  list-style: none;
 }
 </style>
