@@ -25,7 +25,9 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
 }
-
+test {
+    useJUnitPlatform()
+}
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-data-mongodb:2.4.5')
     implementation('org.springframework.boot:spring-boot-starter-web:2.4.5')

@@ -34,6 +34,7 @@ public class DefenseShelterServiceTest {
     public void 이름_검색() throws Exception {
         // given
         String WORD = "대학교";
+        System.out.println("이거실행됨");
 
         // when
         List<DefenseShelter> result = defenseShelterService.getnameSearchDefenseShelters(WORD);
