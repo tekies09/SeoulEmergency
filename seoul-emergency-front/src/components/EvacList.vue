@@ -209,8 +209,8 @@ export default {
 
 <style>
 #sidebar-right {
-  margin: 23vh auto 0;
-  height: 71vh;
+  margin: 27vh auto 0;
+  height: 70vh;
   width: 370px;
   text-align: left;
 }
