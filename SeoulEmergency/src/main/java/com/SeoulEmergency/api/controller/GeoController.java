@@ -40,7 +40,6 @@ public class GeoController extends RootController {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("request", "coordsToaddr");
         parameters.put("coords", location);
-        parameters.put("orders", "roadaddr");
         parameters.put("output", "json");
 
         ResponseEntity<String> response = restTemplate.exchange(
