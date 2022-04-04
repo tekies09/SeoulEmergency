@@ -196,12 +196,12 @@ export default new Vuex.Store({
     // 뉴스 리스트 총 개수 불러오기
     getAllNewsCount({ state }) {
       console.log('뉴스 리스트 총 개수 불러오기', state.newsListCount);
-      const url = `api/news/list/allcount`;
+      const url = `/api/news/list/allcount`;
       return backAxios.get(url);
     },
     getWordsList() {
       // console.log('워드 불러오기', state);
-      const url = '/wordcloud';
+      const url = '/api/wordcloud';
       return backAxios.get(url);
     },
   },
