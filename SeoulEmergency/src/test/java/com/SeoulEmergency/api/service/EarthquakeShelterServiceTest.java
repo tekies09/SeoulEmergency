@@ -16,6 +16,9 @@ public class EarthquakeShelterServiceTest {
 
     @Autowired
     EarthquakeShelterService earthquakeShelterService;
+    @Autowired
+    ShelterServiceImpl shelterServiceImpl;
+
 
     @Test
     public void 근처_지진_대피소() throws Exception {
@@ -79,5 +82,25 @@ public class EarthquakeShelterServiceTest {
 
         // then (검색 결과가 없는지 확인)
         assertThat(result.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void 대피소_상세정보() throws Exception {
+        // given
+        Double LONGITUDE = 126.9784147;
+        Double LATITUDE = 37.5666805;
+
+        List<EarthquakeShelterWithDistance> shelters = earthquakeShelterService.getNearEarthquakeShelters(LONGITUDE, LATITUDE);
+
+        String rightId = Integer.toString(shelters.get(0).getSeqNum());
+        String wrongId = "0";
+
+        // when
+        EarthquakeShelter detailResult1 = shelterServiceImpl.getEarthquakeDetail(rightId);
+        EarthquakeShelter detailResult2 = shelterServiceImpl.getEarthquakeDetail(wrongId);
+
+        // then (ID에 따라 민방위 대피소 상세정보가 잘 리턴되는지 확인)
+        assertThat(detailResult1).isNotNull();
+        assertThat(detailResult2).isNull();
     }
 }

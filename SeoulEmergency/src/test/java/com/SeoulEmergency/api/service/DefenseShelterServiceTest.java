@@ -2,6 +2,8 @@ package com.SeoulEmergency.api.service;
 
 import com.SeoulEmergency.core.domain.DefenseShelter;
 import com.SeoulEmergency.core.domain.DefenseShelterWithDistance;
+import com.SeoulEmergency.core.domain.EarthquakeShelter;
+import com.SeoulEmergency.core.domain.EarthquakeShelterWithDistance;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +18,9 @@ public class DefenseShelterServiceTest {
 
     @Autowired
     DefenseShelterService defenseShelterService;
+    @Autowired
+    ShelterServiceImpl shelterServiceImpl;
+
 
     @Test
     public void 근처_지진_대피소() throws Exception {
@@ -79,5 +84,25 @@ public class DefenseShelterServiceTest {
 
         // then (검색 결과가 없는지 확인)
         assertThat(result.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void 대피소_상세정보() throws Exception {
+        // given
+        Double LONGITUDE = 126.9784147;
+        Double LATITUDE = 37.5666805;
+
+        List<DefenseShelterWithDistance> shelters = defenseShelterService.getNearDefenseShelters(LONGITUDE, LATITUDE);
+
+        String rightId = Integer.toString(shelters.get(0).getSeqNum());
+        String wrongId = "0";
+
+        // when
+        DefenseShelter detailResult1 = shelterServiceImpl.getDefenseDetail(rightId);
+        DefenseShelter detailResult2 = shelterServiceImpl.getDefenseDetail(wrongId);
+
+        // then (ID에 따라 민방위 대피소 상세정보가 잘 리턴되는지 확인)
+        assertThat(detailResult1).isNotNull();
+        assertThat(detailResult2).isNull();
     }
 }
