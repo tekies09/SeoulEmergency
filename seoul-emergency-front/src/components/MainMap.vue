@@ -47,7 +47,16 @@
       </naver-maps>
 
       <!-- 모달 창 (추후 리팩토링 필요) -->
-      <b-modal ref="my-modal" hide-footer title="자세히보기">
+      <b-modal ref="my-modal" hide-footer title="대피소 정보" class="list-modal">
+      <template #modal-header="{ close }">
+        <!-- Emulate built in modal header close button action -->
+        <h5 style="margin: auto 0">
+          대피소 정보
+        </h5>
+        <b-button variant="" @click="close()" class="custom-toggle" size="xs">
+          <img src="../assets/circle-cross.png" alt="Map" width="20px" />
+        </b-button>
+      </template>
       <!-- type 비어잇으면 지금은 지진정보임 -->
       <div v-if="this.searchShelterDetail.earthquakeDetail">
         <ul class="modal-list">
@@ -58,9 +67,21 @@
         </ul>
 
         <div class="map-link">
-          <b-button variant="success" :href="searchNaverMapURL" target="_blank" rel="noopener noreferrer">네이버 지도</b-button>
-          <b-button variant="warning" :href="searchKakaoMapURL" target="_blank" rel="noopener noreferrer">카카오 지도</b-button>
-      </div>
+          <b-button
+            variant="success"
+            :href="searchNaverMapURL"
+            target="_blank"
+            rel="noopener noreferrer"
+            >네이버 지도</b-button
+          >
+          <b-button
+            variant="warning"
+            :href="searchKakaoMapURL"
+            target="_blank"
+            rel="noopener noreferrer"
+            >카카오 지도</b-button
+          >
+        </div>
       </div>
 
       <div v-if="this.searchShelterDetail.defenseDetail">
@@ -82,13 +103,26 @@
           </li>
           <li>활용목적 : {{ searchShelterDetail.defenseDetail.type }}</li>
           <li>개방여부 : {{ searchShelterDetail.defenseDetail.isOpen }}</li>
-          <li>데이터 갱신일자 : {{ searchShelterDetail.defenseDetail.date }}</li>
+          <li>
+            데이터 갱신일자 : {{ searchShelterDetail.defenseDetail.date }}
+          </li>
         </ul>
-
         <div class="map-link">
-          <b-button variant="success" :href="searchNaverMapURL" target="_blank" rel="noopener noreferrer">네이버 지도</b-button>
-          <b-button variant="warning" :href="searchKakaoMapURL" target="_blank" rel="noopener noreferrer">카카오 지도</b-button>
-      </div>
+          <b-button
+            variant="success"
+            :href="searchNaverMapURL"
+            target="_blank"
+            rel="noopener noreferrer"
+            >네이버 지도</b-button
+          >
+          <b-button
+            variant="warning"
+            :href="searchKakaoMapURL"
+            target="_blank"
+            rel="noopener noreferrer"
+            >카카오 지도</b-button
+          >
+        </div>
       </div>
       <!-- type 비어잇지않으면 지금은 민방위정보임 -->
     </b-modal>
@@ -461,5 +495,27 @@ export default {
 
 .modal-list {
   list-style: none;
+}
+
+button.custom-toggle {
+  background-color: #ffffff00;
+  border-color: #ffffff00;
+  /* position: fixed;
+  z-index: 10000; */
+}
+
+button.custom-toggle:hover {
+  background-color: #ff404055;
+  border-color: #ff404000;
+}
+
+.list-modal {
+  position: absolute;
+  top: 20%;
+  right: 50%;
+  z-index: 9999;
+}
+.modal-header .modal-title {
+  margin: auto auto;
 }
 </style>
