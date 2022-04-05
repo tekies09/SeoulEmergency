@@ -66,14 +66,6 @@ export default {
       type: String,
       default: 'label',
     },
-    width: {
-      type: Number,
-      default: 400,
-    },
-    height: {
-      type: Number,
-      default: 400,
-    },
     cssClasses: {
       default: '',
       type: String,
@@ -94,8 +86,10 @@ export default {
         datasets: [],
       },
       chartOptions: {
-        responsive: true,
+        responsive: false,
       },
+      width: '500',
+      height: '500',
     };
   },
 };
