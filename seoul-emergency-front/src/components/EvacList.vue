@@ -3,7 +3,7 @@
     <!-- 대피소 리스트 사이드바 컴포넌트 -->
     <b-sidebar id="sidebar-right" right no-header>
       <!-- 사이드바 내부 대피소 리스트 항목 동적 생성 -->
-      <b-button block @click="hide" class="sm-4 custom-toggle">
+      <b-button block v-b-toggle.sidebar-right.sidebar-no-header @click="hide" class="sm-4 custom-toggle">
         <img src="../assets/circle-cross.png" alt="Map" width="20px" />
       </b-button>
       <b-list-group>
