@@ -28,16 +28,16 @@ public class WordCloudServiceImpl implements WordCloudService {
 
         List<WordCloud> wordCloudList = mongoTemplate.find(q.limit(20),WordCloud.class);
 
-        int sum=0;
-        for(WordCloud wordCloud : wordCloudList){
-            sum+=wordCloud.getCount();
-        }
+//        int sum=0;
+//        for(WordCloud wordCloud : wordCloudList){
+//            sum+=wordCloud.getCount();
+//        }
         List<WordCloudRes> result= new ArrayList<>();
 
         for(WordCloud wordCloud : wordCloudList) {
-            double rate = (double)wordCloud.getCount()/(double)sum;
+//            double rate = (double)wordCloud.getCount()/(double)sum;
 
-            WordCloudRes temp = new WordCloudRes(wordCloud.getWord(),(int)(rate *100));
+            WordCloudRes temp = new WordCloudRes(wordCloud.getWord(),wordCloud.getCount());
             result.add(temp);
         }
 
