@@ -3,7 +3,12 @@
     <!-- 대피소 리스트 사이드바 컴포넌트 -->
     <b-sidebar id="sidebar-right" right no-header>
       <!-- 사이드바 내부 대피소 리스트 항목 동적 생성 -->
-      <b-button block v-b-toggle.sidebar-right.sidebar-no-header @click="hide" class="sm-4 custom-toggle">
+      <b-button
+        block
+        v-b-toggle.sidebar-right.sidebar-no-header
+        @click="hide"
+        class="sm-4 custom-toggle"
+      >
         <img src="../assets/circle-cross.png" alt="Map" width="20px" />
       </b-button>
       <b-list-group>
@@ -35,11 +40,16 @@
         </div>
       </b-list-group>
     </b-sidebar>
-    <b-modal
-      ref="my-modal"
-      hide-footer title="대피소 정보"
-      class="list-modal"
-      >
+    <b-modal ref="my-modal" hide-footer title="대피소 정보" class="list-modal">
+      <template #modal-header="{ close }">
+        <!-- Emulate built in modal header close button action -->
+        <h5 style="margin: auto 0">
+          대피소 정보
+        </h5>
+        <b-button variant="" @click="close()" class="custom-toggle" size="xs">
+          <img src="../assets/circle-cross.png" alt="Map" width="20px" />
+        </b-button>
+      </template>
       <!-- type 비어잇으면 지금은 지진정보임 -->
       <div v-if="this.searchShelterDetail.earthquakeDetail">
         <ul class="modal-list">
@@ -50,8 +60,20 @@
         </ul>
 
         <div class="map-link">
-          <b-button variant="success" :href="searchNaverMapURL" target="_blank" rel="noopener noreferrer">네이버 지도</b-button>
-          <b-button variant="warning" :href="searchKakaoMapURL" target="_blank" rel="noopener noreferrer">카카오 지도</b-button>
+          <b-button
+            variant="success"
+            :href="searchNaverMapURL"
+            target="_blank"
+            rel="noopener noreferrer"
+            >네이버 지도</b-button
+          >
+          <b-button
+            variant="warning"
+            :href="searchKakaoMapURL"
+            target="_blank"
+            rel="noopener noreferrer"
+            >카카오 지도</b-button
+          >
         </div>
       </div>
 
@@ -74,12 +96,26 @@
           </li>
           <li>활용목적 : {{ searchShelterDetail.defenseDetail.type }}</li>
           <li>개방여부 : {{ searchShelterDetail.defenseDetail.isOpen }}</li>
-          <li>데이터 갱신일자 : {{ searchShelterDetail.defenseDetail.date }}</li>
+          <li>
+            데이터 갱신일자 : {{ searchShelterDetail.defenseDetail.date }}
+          </li>
         </ul>
         <div class="map-link">
-          <b-button variant="success" :href="searchNaverMapURL" target="_blank" rel="noopener noreferrer">네이버 지도</b-button>
-          <b-button variant="warning" :href="searchKakaoMapURL" target="_blank" rel="noopener noreferrer">카카오 지도</b-button>
-      </div>
+          <b-button
+            variant="success"
+            :href="searchNaverMapURL"
+            target="_blank"
+            rel="noopener noreferrer"
+            >네이버 지도</b-button
+          >
+          <b-button
+            variant="warning"
+            :href="searchKakaoMapURL"
+            target="_blank"
+            rel="noopener noreferrer"
+            >카카오 지도</b-button
+          >
+        </div>
       </div>
       <!-- type 비어잇지않으면 지금은 민방위정보임 -->
     </b-modal>
@@ -91,8 +127,8 @@ export default {
   data() {
     return {
       naverMapURL: "https://map.naver.com",
-      kakaoMapURL: "https://map.kakao.com"
-    }
+      kakaoMapURL: "https://map.kakao.com",
+    };
   },
   name: "EvacList",
   computed: {
@@ -110,30 +146,37 @@ export default {
     searchKakaoMapURL() {
       this.setKakaoMapURL();
       return this.kakaoMapURL;
-    }
+    },
   },
   methods: {
     setNaverMapURL() {
-      if(this.searchShelterDetail.earthquakeDetail) {
-        this.checkNaverMobileType(this.searchShelterDetail.earthquakeDetail.name);
-      } else if(this.searchShelterDetail.defenseDetail) {
+      if (this.searchShelterDetail.earthquakeDetail) {
+        this.checkNaverMobileType(
+          this.searchShelterDetail.earthquakeDetail.name
+        );
+      } else if (this.searchShelterDetail.defenseDetail) {
         this.checkNaverMobileType(this.searchShelterDetail.defenseDetail.name);
       }
       return this.naverMapURL;
     },
     setKakaoMapURL() {
-      if(this.searchShelterDetail.earthquakeDetail) {
-        this.checkKakaoMobileType(this.searchShelterDetail.earthquakeDetail.name);
-      } else if(this.searchShelterDetail.defenseDetail) {
+      if (this.searchShelterDetail.earthquakeDetail) {
+        this.checkKakaoMobileType(
+          this.searchShelterDetail.earthquakeDetail.name
+        );
+      } else if (this.searchShelterDetail.defenseDetail) {
         this.checkKakaoMobileType(this.searchShelterDetail.defenseDetail.name);
       }
       return this.kakaoMapURL;
     },
     checkNaverMobileType(queryString) {
       const userAgent = navigator.userAgent.toLowerCase();
-      if(userAgent.indexOf('android') > -1) {
+      if (userAgent.indexOf("android") > -1) {
         this.naverMapURL = `intent://search?query=${queryString}&appname=j6a403.p.ssafy.io#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;
-      } else if (userAgent.indexOf('iphone') > -1 || userAgent.indexOf('ipad') > -1) {
+      } else if (
+        userAgent.indexOf("iphone") > -1 ||
+        userAgent.indexOf("ipad") > -1
+      ) {
         this.naverMapURL = `nmap://search?query=${queryString}&appname=j6a403.p.ssafy.io`;
         this.naverMapURL = this.iosNaverMap(this.naverMapURL);
       } else {
@@ -142,9 +185,12 @@ export default {
     },
     checkKakaoMobileType(queryString) {
       const userAgent = navigator.userAgent.toLowerCase();
-      if(userAgent.indexOf('android') > -1) {
+      if (userAgent.indexOf("android") > -1) {
         this.kakaoMapURL = `intent://search?q=${queryString}#Intent;scheme=kakaomap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=net.daum.android.map;end`;
-      } else if (userAgent.indexOf('iphone') > -1 || userAgent.indexOf('ipad') > -1) {
+      } else if (
+        userAgent.indexOf("iphone") > -1 ||
+        userAgent.indexOf("ipad") > -1
+      ) {
         this.kakaoMapURL = `kakaomap://search?q=${queryString}`;
         this.kakaoMapURL = this.iosKakaoMap(this.kakaoMapURL);
       } else {
@@ -156,8 +202,8 @@ export default {
       let returnURL = URL;
 
       setTimeout(() => {
-        if(+new Date() - clickedAt < 2000) {
-          returnURL = 'http://itunes.apple.com/app/id311867728?mt=8';
+        if (+new Date() - clickedAt < 2000) {
+          returnURL = "http://itunes.apple.com/app/id311867728?mt=8";
         }
       }, 1500);
 
@@ -168,8 +214,8 @@ export default {
       let returnURL = URL;
 
       setTimeout(() => {
-        if(+new Date() - clickedAt < 2000) {
-          returnURL = 'https://itunes.apple.com/app/id304608425?mt=8';
+        if (+new Date() - clickedAt < 2000) {
+          returnURL = "https://itunes.apple.com/app/id304608425?mt=8";
         }
       }, 1500);
 
@@ -224,8 +270,8 @@ export default {
   text-align: left;
 }
 ::-webkit-scrollbar {
-  width: 10px;  /* 세로축 스크롤바 길이 */
-  height: 20px;  /* 가로축 스크롤바 길이 */
+  width: 10px; /* 세로축 스크롤바 길이 */
+  height: 20px; /* 가로축 스크롤바 길이 */
 }
 ::-webkit-scrollbar-track {
   background-color: lightblue;
@@ -255,12 +301,12 @@ export default {
   list-style: none;
 }
 
-/* button.custom-toggle {
+button.custom-toggle {
   background-color: #ffffff00;
   border-color: #ffffff00;
-  position: fixed;
-  z-index: 10000;
-} */
+  /* position: fixed;
+  z-index: 10000; */
+}
 
 button.custom-toggle:hover {
   background-color: #ff404055;
@@ -274,6 +320,6 @@ button.custom-toggle:hover {
   z-index: 9999;
 }
 .modal-header .modal-title {
-  margin: 0 auto;
+  margin: auto auto;
 }
 </style>
