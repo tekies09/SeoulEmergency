@@ -1,8 +1,11 @@
 <template>
   <div class="list">
     <!-- 대피소 리스트 사이드바 컴포넌트 -->
-    <b-sidebar id="sidebar-right" right>
+    <b-sidebar id="sidebar-right" right no-header>
       <!-- 사이드바 내부 대피소 리스트 항목 동적 생성 -->
+      <b-button block @click="hide" class="sm-4 custom-toggle">
+        <img src="../assets/circle-cross.png" alt="Map" width="20px" />
+      </b-button>
       <b-list-group>
         <div
           v-for="shelter in this.searchShelterList"
@@ -32,8 +35,11 @@
         </div>
       </b-list-group>
     </b-sidebar>
-
-    <b-modal ref="my-modal" hide-footer title="자세히보기">
+    <b-modal
+      ref="my-modal"
+      hide-footer title="대피소 정보"
+      class="list-modal"
+      >
       <!-- type 비어잇으면 지금은 지진정보임 -->
       <div v-if="this.searchShelterDetail.earthquakeDetail">
         <ul class="modal-list">
@@ -212,10 +218,30 @@ export default {
 
 <style>
 #sidebar-right {
-  margin: 212px auto 0;
-  height: 70vh;
+  margin: 210px auto 0;
+  height: 61vh;
   width: 370px;
   text-align: left;
+}
+::-webkit-scrollbar {
+  width: 10px;  /* 세로축 스크롤바 길이 */
+  height: 20px;  /* 가로축 스크롤바 길이 */
+}
+::-webkit-scrollbar-track {
+  background-color: lightblue;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: rgb(196, 198, 199);
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #ff4040;
+}
+::-webkit-scrollbar-corner {
+  background-color: violet; /* 우측 하단의 코너 부분 */
+}
+::-webkit-resizer {
+  background-color: green;
 }
 
 .map-link {
@@ -229,7 +255,25 @@ export default {
   list-style: none;
 }
 
-.modal-list {
-  list-style: none;
+/* button.custom-toggle {
+  background-color: #ffffff00;
+  border-color: #ffffff00;
+  position: fixed;
+  z-index: 10000;
+} */
+
+button.custom-toggle:hover {
+  background-color: #ff404055;
+  border-color: #ff404000;
+}
+
+.list-modal {
+  position: absolute;
+  top: 20%;
+  right: 50%;
+  z-index: 9999;
+}
+.modal-header .modal-title {
+  margin: 0 auto;
 }
 </style>
