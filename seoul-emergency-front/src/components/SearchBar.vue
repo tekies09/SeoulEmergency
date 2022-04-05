@@ -31,7 +31,7 @@
         <option v-for="district in districts" :key="district">{{ district }}</option>
       </datalist>
 
-      <b-button variant="outline-secondary" @click="searchClicked">
+      <b-button squared variant="outline-secondary" @click="searchClicked" class="search-btn">
         <img src="../assets/search.svg" alt="Search Icon" class="search-icon" />
       </b-button>
     </b-input-group>
@@ -719,6 +719,11 @@ export default {
 
 .search-icon {
   height: 30px;
+}
+
+.search-btn:hover {
+  border-color: lightgrey;
+  background-color: lightgrey;
 }
 
 .form-control {

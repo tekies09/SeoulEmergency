@@ -7,8 +7,8 @@
     <p class="help">대피소 종류를 선택하세요</p>
     <div class="categories">
       <b-button @click="clickCategoryBtn('지진')" variant="outline-dark" size="lg" to="/map">지진</b-button>
-      <b-button @click="clickCategoryBtn('해일')" variant="outline-dark" size="lg" to="/map">해일</b-button>
       <b-button @click="clickCategoryBtn('민방위')" variant="outline-dark" size="lg" to="/map">민방위</b-button>
+      <b-button @click="clickCategoryBtn('해일')" variant="outline-dark" size="lg" to="/map">해일</b-button>
     </div>
   </div>
 </template>

@@ -500,8 +500,6 @@ export default {
 button.custom-toggle {
   background-color: #ffffff00;
   border-color: #ffffff00;
-  /* position: fixed;
-  z-index: 10000; */
 }
 
 button.custom-toggle:hover {
@@ -515,6 +513,7 @@ button.custom-toggle:hover {
   right: 50%;
   z-index: 9999;
 }
+
 .modal-header .modal-title {
   margin: auto auto;
 }
