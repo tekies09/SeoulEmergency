@@ -5,67 +5,53 @@
         <!-- <div id="wordcl"></div> -->
         <!-- <VueTagCloud v-bin:data="words"></VueTagCloud> -->
         <div id="wordcl2"></div>
+        <div>클릭시 해당 단어로 뉴스 검색이 진행됩니다.</div>
       </b-tab>
       <b-tab title="차트로 보기">
-        <img src="https://via.placeholder.com/400x300?text=Chart" />
-      </b-tab>
-      <b-tab title="머시기로 보기">
-        <img src="https://via.placeholder.com/400x300?text=Mosigi" />
+        <Chartjs />
       </b-tab>
     </b-tabs>
   </div>
 </template>
 
 <script>
+import Chartjs from '@/components/Chartjs.vue';
 export default {
+  components: {
+    Chartjs,
+  },
   computed: {
     getComputedList() {
-      console.log(this.$store.state.wordsList);
       return this.$store.state.wordsList;
     },
   },
+  created() {
+    this.modWordsList();
+  },
   mounted() {
-    this.genLayout();
+    // this.genLayout();
     this.genLayout2();
   },
+  data() {
+    return {
+      modedWordsList: [],
+    };
+  },
   methods: {
-    genLayout() {
-      const cloud = require('d3-cloud');
-      cloud()
-        .words(this.getComputedList)
-        .padding(1)
-        .fontSize(function (d) {
-          return d.count;
-        })
-        .on('end', this.end)
-        .spiral('archimedean')
-        .start()
-        .stop();
-    },
-    end(words) {
-      const d3 = require('d3');
-      const width = 300;
-      const height = 300;
-      d3.select('#wordcl')
-        .append('svg')
-        .attr('width', width)
-        .attr('height', height)
-        .append('g')
-        .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')
-        .selectAll('text')
-        .data(words)
-        .enter()
-        .append('text')
-        .style('font-size', (d) => {
-          return d.count * 3 + 'px';
-        })
-        .attr('text-anchor', 'middle')
-        .attr('transform', (d) => {
-          console.log(d.x + ' ' + d.y);
-          return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')';
-        })
-        .attr('href', 'http://www.naver.com')
-        .text((d) => d.word);
+    modWordsList() {
+      var sum = 0;
+      for (var wordAndCountforSum of this.getComputedList) {
+        sum += wordAndCountforSum.count;
+      }
+      for (var wordAndCount of this.getComputedList) {
+        var temp = {
+          word: '',
+          count: 0,
+        };
+        temp.word = wordAndCount.word;
+        temp.count = parseInt((wordAndCount.count / sum) * 100);
+        this.modedWordsList.push(temp);
+      }
     },
 
     genLayout2() {
@@ -74,7 +60,7 @@ export default {
       const cloud = require('d3-cloud');
       cloud()
         .size([width, height])
-        .words(this.getComputedList)
+        .words(this.modedWordsList)
         .rotate(function () {
           return Math.random() * 360;
         })
@@ -88,6 +74,7 @@ export default {
       const d3 = require('d3');
       const width = 500;
       const height = 500;
+
       d3.select('#wordcl2')
         .append('svg')
         .attr('width', width)
@@ -98,6 +85,17 @@ export default {
         .data(words)
         .enter()
         .append('text')
+        .style('font-family', 'Impact')
+        .style('fill-opacity', 0.6)
+        .attr('text-anchor', 'middle')
+        .style('font-size', (d) => d.count * 5 + 'px')
+        .attr('transform', (d) => 'translate(' + [d.x, d.y] + ')')
+        .append('a')
+        .attr('href', function (d) {
+          return 'https://search.naver.com/search.naver?sm=tab_sug.top&where=news&query=' + d.word;
+        })
+        .attr('target', '_blank')
+        .style('text-decoration', 'none')
         .style('fill', function (d) {
           if (parseInt(d.count) > parseInt(20)) return '#dd3333';
           else if (parseInt(d.count) > parseInt(15)) return '#8224e3';
@@ -108,10 +106,6 @@ export default {
           else if (parseInt(d.count) > parseInt(1)) return '#626208';
           else '#025275';
         })
-        .style('font-family', 'Impact')
-        .attr('text-anchor', 'middle')
-        .style('font-size', (d) => d.count * 5 + 'px')
-        .attr('transform', (d) => 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')')
         .text((d) => d.word);
     },
 
@@ -130,5 +124,8 @@ img {
 #wordcl {
   width: 45vw;
   height: 45vw;
+}
+a:hover {
+  text-decoration: underline;
 }
 </style>
