@@ -38,8 +38,7 @@ export default {
 
 <style scoped>
 .logo-img {
-  min-width: 40px;
-  width: 5vmin;
+  width: 45px;
   margin-left: 47.5vw;
   transition: 100ms linear;
 }
@@ -75,12 +74,10 @@ export default {
 }
 
 .map-img {
-  min-height: 30px;
-  height: 2vmin;
+  height: 30px;
 }
 
 .news-img {
-  min-height: 30px;
-  height: 2vmin;
+  height: 30px;
 }
 </style>

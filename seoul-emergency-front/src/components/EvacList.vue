@@ -264,7 +264,7 @@ export default {
 
 <style>
 #sidebar-right {
-  margin: 165px auto 0;
+  margin: 170px auto 0;
   height: 68vh;
   width: 370px;
   text-align: left;

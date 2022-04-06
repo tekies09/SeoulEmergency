@@ -4,12 +4,6 @@
 
     <SearchBar />
 
-    <div class="tags">
-      <b-button v-b-toggle.sidebar-right.sidebar-no-header id="show-sidebar">
-        대피소 목록 보기
-      </b-button>
-    </div>
-
     <!-- 지도 컴포넌트 -->
     <div class="map-component">
       <MainMap />
@@ -43,17 +37,6 @@ export default {
   margin-top: 5px;
 }
 
-.tags {
-  position: absolute;
-  left: 50px;
-  top: 175px;
-  z-index: 1000;
-}
-
-.tags button {
-  margin-left: 10px;
-}
-
 .main-map {
   margin-top: 5px;
 }
@@ -62,14 +45,5 @@ export default {
   width: 95vw;
   height: 68vh;
   margin: 10px 0 0 10px;
-}
-
-#show-sidebar {
-  border-color: white;
-  background-color: #fe6a6a;
-}
-
-#show-sidebar:hover {
-  background-color: #ff4040;
 }
 </style>

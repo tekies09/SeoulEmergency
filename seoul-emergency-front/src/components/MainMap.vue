@@ -10,6 +10,9 @@
         @load="onLoad"
         @dragend="onChangeMap"
       >
+        <b-button v-b-toggle.sidebar-right.sidebar-no-header id="show-sidebar">
+          대피소 목록 보기
+        </b-button>
         <!-- 마커 컴포넌트 동적 생성 -->
         <div
           v-for="shelter in this.searchShelterList"
@@ -465,6 +468,19 @@ export default {
 </script>
 
 <style>
+#show-sidebar {
+  border-color: white;
+  background-color: #fe6a6a;
+  position: absolute;
+  z-index: 1000;
+  top: 0.5rem;
+  left: 3.2rem;
+}
+
+#show-sidebar:hover {
+  background-color: #ff4040;
+}
+
 #near-shelter-btn {
   position: absolute;
   bottom: 2rem;
