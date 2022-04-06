@@ -264,8 +264,8 @@ export default {
 
 <style>
 #sidebar-right {
-  margin: 210px auto 0;
-  height: 61vh;
+  margin: 165px auto 0;
+  height: 68vh;
   width: 370px;
   text-align: left;
 }
@@ -304,12 +304,10 @@ export default {
 button.custom-toggle {
   background-color: #ffffff00;
   border-color: #ffffff00;
-  /* position: fixed;
-  z-index: 10000; */
 }
 
 button.custom-toggle:hover {
-  background-color: #ff404055;
+  background-color: lightgrey;
   border-color: #ff404000;
 }
 
@@ -319,6 +317,7 @@ button.custom-toggle:hover {
   right: 50%;
   z-index: 9999;
 }
+
 .modal-header .modal-title {
   margin: auto auto;
 }

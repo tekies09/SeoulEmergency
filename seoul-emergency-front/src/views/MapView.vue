@@ -5,9 +5,9 @@
     <SearchBar />
 
     <div class="tags">
-      <b-button v-b-toggle.sidebar-right.sidebar-no-header id="show-sidebar"
-        >대피소 목록 보기</b-button
-      >
+      <b-button v-b-toggle.sidebar-right.sidebar-no-header id="show-sidebar">
+        대피소 목록 보기
+      </b-button>
     </div>
 
     <!-- 지도 컴포넌트 -->
@@ -44,11 +44,9 @@ export default {
 }
 
 .tags {
-  margin-top: 5px;
-  margin-left: 5px;
   position: absolute;
-  left: 4%;
-  top: 160px;
+  left: 50px;
+  top: 175px;
   z-index: 1000;
 }
 
@@ -67,7 +65,6 @@ export default {
 }
 
 #show-sidebar {
-  margin-top: 5px;
   border-color: white;
   background-color: #fe6a6a;
 }

@@ -41,6 +41,11 @@ export default {
   min-width: 40px;
   width: 5vmin;
   margin-left: 47.5vw;
+  transition: 100ms linear;
+}
+
+.logo-img:hover {
+  transform: scale(1.2);
 }
 
 .header-button {
@@ -49,18 +54,16 @@ export default {
   text-align: center;
   cursor: pointer;
   color: #333;
-  transition: all 0.9s, color 0.3;
+  margin-right: 8px;
+  border-radius: 8px;
+  transition: all 0.9s color 0.3s ease-out;
 }
 .header-button:hover {
-  background-color: #fe6a6a44;
+  background-color: lightgrey;
 }
 
 .navbar-nav {
   margin-left: auto;
-}
-
-.navbar-nav:hover {
-  box-shadow: 1px 1px 3px 0px grey;
 }
 
 .navbar-nav span {
