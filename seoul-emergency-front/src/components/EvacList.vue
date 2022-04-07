@@ -3,14 +3,18 @@
     <!-- 대피소 리스트 사이드바 컴포넌트 -->
     <b-sidebar id="sidebar-right" right no-header>
       <!-- 사이드바 내부 대피소 리스트 항목 동적 생성 -->
-      <b-button
+      <div class="sidebar-header">
+        <b-button
         block
         v-b-toggle.sidebar-right.sidebar-no-header
         @click="hide"
         class="sm-4 custom-toggle"
       >
         <img src="../assets/circle-cross.png" alt="Map" width="20px" />
-      </b-button>
+        </b-button>
+        <p class="sidebar-tip">목록 클릭 시 상세정보/지도 안내</p>
+      </div>
+      
       <b-list-group>
         <div
           v-for="shelter in this.searchShelterList"
@@ -269,6 +273,17 @@ export default {
   width: 370px;
   text-align: left;
 }
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.sidebar-tip {
+  margin: auto 5px;
+}
+
 ::-webkit-scrollbar {
   width: 10px; /* 세로축 스크롤바 길이 */
   height: 20px; /* 가로축 스크롤바 길이 */
