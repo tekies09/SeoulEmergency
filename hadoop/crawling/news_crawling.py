@@ -4,19 +4,21 @@ import pandas as pd
 
 """
 검색어 : 지진
-(최신순 / 2011.01.01 ~ 2022.03.14 / 연합뉴스)
-수집 기사 수 : 1000개 (10개 x 100페이지)
+(최신순 / 2022.01.01 ~ 2022.04.07  / 연합뉴스)
+수집 기사 수 : 100개 (10개 x 10페이지)
 """
 
 """
 페이지 url 100개를 page_urls에 저장
 """
-page_former = "https://search.naver.com/search.naver?where=news&sm=tab_pge&query=%EC%A7%80%EC%A7%84&sort=1&photo=0&field=0&pd=3&ds=2011.01.01&de=2022.03.14&mynews=1&office_type=1&office_section_code=2&news_office_checked=1001&nso=so:dd,p:from20110101to20220314,a:all&start="
+page_former = "https://search.naver.com/search.naver?where=news&sm=tab_pge&query=%EC%A7%80%EC%A7%84&sort=1&photo=0&field=0&pd=3&ds=2022.01.01&de=2022.04.07&mynews=1&office_type=1&office_section_code=2&news_office_checked=1001&nso=so:dd,p:from20110101to20220314,a:all&start="
 
 page_urls = []
 
-for page in range(1, 1000, 10):
+for page in range(1, 100, 10):
     page_urls.append(page_former + str(page))
+
+
 
 """
 각 url별로 기사들의 기사 / 날짜 / 언론사 / url / 본문 일부를 저장함.
@@ -85,7 +87,7 @@ titles_all = sum(titles, [])
 sources_all = sum(sources, [])
 dates_all = sum(dates, [])
 texts_all = sum(texts, [])
-category = ["지진"] * 1000
+category = ["지진"] * 100
 
 result = pd.DataFrame({
     "재난_분류": category,
@@ -154,27 +156,30 @@ for url in urls_all:
 
 result["본문_전체"] = stories
 
-# csv 파일로 추출하기
-result.to_csv('C:/Users/SSAFY/Desktop/SSAFY/특화 프로젝트/S06P21A403/0311/earthquake_result_0316_1000.csv')
 
-
-"""
-키워드 추출 내용 txt 파일로 추출
-"""
+import datetime
 from konlpy.tag import Okt
 okt = Okt()
 
-write_file = open('0316_article_results.txt', mode='w')
+nowDate = datetime.datetime.now()
+
+write_file = open(nowDate.strftime('%m-%d')+'_article_results.txt', mode='w',encoding='utf-8')
+
 
 for i in range(len(result)):
+    # 기사 전문을 돌면서 명사만 저장
     nouns = okt.nouns(result["본문_전체"].loc[i])
-    # 1글자는 제거
+    # 1글자 단어는 제거
     nouns = [x for x in nouns if len(x) > 1]
 
     if nouns:
         for noun in nouns:
-            write_file.write(noun + " ")
+            write_file.write(noun + ",")
 
         write_file.write('\n')
 
 write_file.close()
+
+# # csv 파일로 추출하기
+# result.to_csv('C:/Users/jaeYoung/Desktop/크로울링/earthquake_result_0322_1000.csv')
+# print("추출")
