@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"location":"2dsphere"},"name":"location","2dsphereIndexVersion":{"$numberInt":"3"}}],"uuid":"aa46acfd26654c50a5d717bf9b70dc77","collectionName":"defense","type":"collection"}
