@@ -1,0 +1,61 @@
+{
+  "name": "seoul-emergency-front",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "bootstrap": "^5.1.3",
+    "bootstrap-vue": "^2.21.2",
+    "chart.js": "^3.7.1",
+    "core-js": "^3.8.3",
+    "d3": "^7.4.0",
+    "d3-cloud": "^1.2.5",
+    "jquery": "^3.6.0",
+    "vue": "^2.6.14",
+    "vue-chartjs": "^4.0.4",
+    "vue-geolocation-api": "^0.1.21",
+    "vue-mobile-detection": "^1.0.0",
+    "vue-naver-maps": "^0.14.3",
+    "vue-router": "^3.5.1",
+    "vue-tag-cloud": "^0.0.1",
+    "vuex": "^3.6.2",
+    "vuex-persistedstate": "^4.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "expose-loader": "^3.1.0",
+    "vue-template-compiler": "^2.6.14"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
