@@ -62,3 +62,6 @@
 
 ## 🌏Distribution flow
 ![Architecture](img/Architecture.PNG)
+
+## Product Promotion Image
+<img src="https://i.imgur.com/xASA8oH.png" title="source: imgur.com" />

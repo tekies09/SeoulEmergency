@@ -1,0 +1,10 @@
+spring:
+  data:
+    mongodb:
+      host: j6a403.p.ssafy.io
+      port: 27017
+      authentication-database: admin
+      username: threestar
+      password: ssafya403threestar
+      database: shelter
+      uri: mongodb://threestar:ssafya403threestar@j6a403.p.ssafy.io:27017/shelter?authSource=admin&authMechanism=SCRAM-SHA-1
