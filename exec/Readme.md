@@ -6,7 +6,7 @@ Vue2
 JAVA : openjdk version "1.8.0_192"  
 InteliJ IDEA 2021.3.1  
 VSCode 1.64.2  
-mysql:5.0.6 
+Mongo:5.0.6 
 jenkins:lts-jdk8
 
 
