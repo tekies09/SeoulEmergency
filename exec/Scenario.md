@@ -1,78 +1,51 @@
-## 빌드 및 배포
-1. 
-Hadoop
-Spring boot  
-Vue2  
-JAVA : openjdk version "1.8.0_192"  
-InteliJ IDEA 2021.3.1  
-VSCode 1.64.2  
-mysql:5.0.6 
-jenkins:lts-jdk8
+# 시연 시나리오
+
+### 📌 양방향 서비스 플랫폼의 특성으로 내담자/상담자 측면에서 각각 두 화면을 차례로 혹은 동시에 보여주며 시연 예정
+
+------
 
 
-2. <br>nginx 파일  
-```
-upstream backend {
-        server localhost:8080;
-        server localhost:8081;
-}
 
-server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-        location / {
-        return 301 https://$host$request_uri;
-                }
-        }
+#### 1. 메인 화면
 
-server {
-        #listen 80 default_server;
-        #listen [::]:80 default_server;
-        listen 443 ssl default_server;
-        listen [::]:443 ssl default_server;
+메인 화면 에서 원하는 대피소의 유형을 선택하면 현재 위치를 기반으로 빠르게 주변 대피소를 확인 할수 있습니다.
 
-        ssl_certificate /home/ubuntu/cert/live/j6a403.p.ssafy.io/fullchain.pem;
-        ssl_certificate_key /home/ubuntu/cert/live/j6a403.p.ssafy.io/privkey.pem;
-        ssl_session_timeout 1440m;
-        ssl_session_tickets off;
-        ssl_protocols TLSv1.2 TLSv1.3;
-        ssl_prefer_server_ciphers off;
-        ssl_ciphers "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384";
-
-        root /home/ubuntu/SeoulEmergencyFrontend/dist;
-
-        # Add index.php to the list if you are using PHP
-        index index.html index.htm index.nginx-debian.html;
-
-        server_name _;
-
-        location / {
-                # First attempt to serve request as file, then
-                # as directory, then fall back to displaying a 404.
-                try_files $uri $uri/ /index.html;
-        }
-        location /api {
-                proxy_pass http://backend;
-                proxy_http_version 1.1;
-                proxy_set_header Connection "";
-                include /etc/nginx/proxy_params;
-        }
+![MainPage](exec/ScenarioImg/MainPage.PNG)
 
 
-```
-3. 특이사항  
- SSL 발급받기
- ```
-sudo apt-get update -y & sudo apt-get install letsencrypt -y
-sudo letsencrypt certonly --standalone -d [도메인 네임]
- ```
 
-4. DB 접속 정보  
-mysql
-사용 db : shelter
-계정 : threestar / ssafya403threestar
+#### 2. 주변 대피소 Map 화면 
 
-<br>
+메인화면에서 선택후 이화면으로 이동됩니다. 반응형 웹으로 제작했으며 모바일 및 웹 환경에서 확인 가능합니다.
 
-## 외부 서비스 정보
-naver api 이용 
+> 웹에서 접근
+
+![MapWeb](exec/ScenarioImg/MapWeb.PNG)
+
+> 모바일에서 접근
+
+![MapMobile](exec/ScenarioImg/MapMobile.PNG)
+
+#### 3. 대피소 검색 기능
+
+검색 기능을 통해 지역명 혹은 대피소 이름별 검색이 가능합니다.
+
+> 강동구 검색시 
+
+![SearchEarth](exec/ScenarioImg/SearchEarth.PNG)
+
+> 강동구 검색후 리스트 혹은 핀 클릭시 상세정보 노출
+
+![SearchEarthDetail](exec/ScenarioImg/SearchEarthDetail.PNG)
+
+#### 4. 뉴스 페이지 
+
+뉴스 페이지를 통해 현재 시사토픽으로 재난 예측 혹은 뉴스리스트를 확인 할수 있습니다. 
+
+> 04.07일 기준 조회
+
+![NewsPage](exec/ScenarioImg/NewsPage.PNG)
+
+> 차트 확인
+
+![NewsChart](exec/ScenarioImg/NewsChart.PNG)
