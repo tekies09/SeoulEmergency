@@ -9,7 +9,7 @@
 
   <property name="build.encoding" value="ISO-8859-1"/>
 
-  <property name="lib.dir" value="/usr/local/hadoop/hadoop-3.2.2/share/hadoop/"/>
+  <property name="lib.dir" value="/home/hadoop/hadoop/share/hadoop/"/>
 
   <property name="works.dir" value="${basedir}/src"/>
   <property name="build.dir" value="${basedir}/build"/>

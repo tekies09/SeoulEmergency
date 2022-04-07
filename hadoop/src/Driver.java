@@ -8,7 +8,7 @@ public class Driver {
 		ProgramDriver pgd = new ProgramDriver();
 		try {
 
-			pgd.addClass("ShelterRefine", ShelterRefine .class, "A map/reduce program that performs refine shelterlist");
+			pgd.addClass("wordcount", Wordcount.class, "A map/reduce program that performs word counting.");
 
       			pgd.driver(args);
 			exitCode = 0;
