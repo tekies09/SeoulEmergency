@@ -10,7 +10,7 @@
 
 메인 화면 에서 원하는 대피소의 유형을 선택하면 현재 위치를 기반으로 빠르게 주변 대피소를 확인 할수 있습니다.
 
-![MainPage](exec/ScenarioImg/MainPage.PNG)
+![MainPage](./ScenarioImg/MainPage.PNG)
 
 
 
@@ -20,11 +20,11 @@
 
 > 웹에서 접근
 
-![MapWeb](exec/ScenarioImg/MapWeb.PNG)
+![MapWeb](./ScenarioImg/MapWeb.PNG)
 
 > 모바일에서 접근
 
-![MapMobile](exec/ScenarioImg/MapMobile.PNG)
+![MapMobile](./ScenarioImg/MapMobile.PNG)
 
 #### 3. 대피소 검색 기능
 
@@ -32,11 +32,11 @@
 
 > 강동구 검색시 
 
-![SearchEarth](exec/ScenarioImg/SearchEarth.PNG)
+![SearchEarth](./ScenarioImg/SearchEarth.PNG)
 
 > 강동구 검색후 리스트 혹은 핀 클릭시 상세정보 노출
 
-![SearchEarthDetail](exec/ScenarioImg/SearchEarthDetail.PNG)
+![SearchEarthDetail](./ScenarioImg/SearchEarthDetail.PNG)
 
 #### 4. 뉴스 페이지 
 
@@ -44,8 +44,8 @@
 
 > 04.07일 기준 조회
 
-![NewsPage](exec/ScenarioImg/NewsPage.PNG)
+![NewsPage](./ScenarioImg/NewsPage.PNG)
 
 > 차트 확인
 
-![NewsChart](exec/ScenarioImg/NewsChart.PNG)
+![NewsChart](./ScenarioImg/NewsChart.PNG)
