@@ -13,6 +13,10 @@
 
  #### 안전 불감증에 노출되어 있는 서울시민들을 위한 재난 안내 서비스 앱 
 
+### 서비스 시나리오 
+
+> #### [서비스시나리오](https://github.com/tekies09/SeoulEmergency/blob/master/exec/Scenario.md)
+
 
 <br>
 
