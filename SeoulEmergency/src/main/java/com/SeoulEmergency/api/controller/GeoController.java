@@ -21,8 +21,8 @@ public class GeoController extends RootController {
     public ResponseEntity<String> getReverseGeocoding(String location) {
         // 민감정보!!!
         // ------------------------------------------------------------
-        String clientID = "ttsrjtbjqw";
-        String clientSecret = "etV9ZLeuNvftyEOKgC88jzSndiuGNDnlTMdLpsWt";
+        String clientID = /* 네이버 API ID */
+        String clientSecret = /*네이버 API 시크릿 키워드*/
         // ------------------------------------------------------------
         //
         String url = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc";
