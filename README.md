@@ -1,3 +1,6 @@
+## Product Promotion Image
+<img src="https://i.imgur.com/xASA8oH.png" title="source: imgur.com" />
+
 ## 🚨 Seoul Emergency ! 
 > 안전불감증에 취약한 우리.. 이 세상에서 잘 살아나갈수 있을까요?? 그럴 걱정할 필요없습니다. 저희 Seoul Emergency 와 함께라면요! 
 
@@ -67,5 +70,4 @@
 ## 🌏Distribution flow
 ![Architecture](img/Architecture.PNG)
 
-## Product Promotion Image
-<img src="https://i.imgur.com/xASA8oH.png" title="source: imgur.com" />
+
